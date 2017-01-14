@@ -31,6 +31,7 @@ Update this readme.md file daily with a brief status update so other students co
    * how accurate and consistent is the robot in following the coded path? Do we need any sensors? 
    * understand the geometry of the robot and which axis it turns around
 * SmartDashboard
+  * Record how to set up SmartDashboard so we can change for every computer individually.
 * Have two (or more) different autonomous classes and toggle between them with the Smart Dashboard
   * may be a competitive advantage because would give more options for working with alliance partners
   * what if an alliance partner programs their autonomous mode to do what ours does? would be great to have a backup to score additional points with

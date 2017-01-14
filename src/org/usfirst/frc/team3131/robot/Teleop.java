@@ -13,10 +13,10 @@ public class Teleop {
 	private int counter = 0;
 	private RobotDrive myRobot;
 	private Joystick stick = new Joystick(0);
-	private TalonSRX Tally = new TalonSRX (3);
-	private TalonSRX Talon = new TalonSRX(6);
-	private Victor motor = new Victor(7);
-	private Victor loader = new Victor(8);
+	private TalonSRX Tally = new TalonSRX (4);
+	private TalonSRX Talon = new TalonSRX(5);
+	private Victor motor = new Victor(6);
+	private Victor loader = new Victor(7);
 	
 	private static double deadband (double joystick, double range) {
 		if (-range < joystick && range > joystick) {
@@ -70,7 +70,6 @@ public class Teleop {
 		}
 	};
 
-	
 	public void teleopPeriodic() {
         myRobot.arcadeDrive(deadband(stick.getRawAxis(5), .1),deadband(stick.getRawAxis(1), .1));
         gunTrigger();

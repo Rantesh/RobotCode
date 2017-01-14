@@ -47,4 +47,4 @@ Get the software on the robot as early and often as possible! This will allow us
 
 ## Daily Status Updates
 * 1/13 Ryan split out robot.java into 3 separate files and published the project to Github
-* 1/14 ??? *FILL THIS OUT*
+* 1/14 Set up Autonomous for testing, including SmartDashboard in Autonomous.  Judah has GitHub account and permissions now.

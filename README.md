@@ -29,6 +29,7 @@ Update this readme.md file daily with a brief status update so other students co
       * deposit balls in lower goal?
    * where should it start and what path should it take?
    * how accurate and consistent is the robot in following the coded path? Do we need any sensors? 
+   * understand the geometry of the robot and which axis it turns around
 * SmartDashboard
 * Have two (or more) different autonomous classes and toggle between them with the Smart Dashboard
   * may be a competitive advantage because would give more options for working with alliance partners

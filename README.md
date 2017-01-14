@@ -9,4 +9,5 @@
 # To Do:
 * Autonomous
 * SmartDashboard
+* Have two different autonomous classes and toggle between them with the Smart Dashboard
 

@@ -34,6 +34,8 @@ Update this readme.md file daily with a brief status update so other students co
   * may be a competitive advantage because would give more options for working with alliance partners
   * what if an alliance partner programs their autonomous mode to do what ours does? would be great to have a backup to score additional points with
 * Use the ultrasonic sensor! (need to coordinate with electrical and mechanical)
+  * http://wpilib.screenstepslive.com/s/3120/m/7912/l/85774-measuring-robot-distance-to-a-surface-using-ultrasonic-sensors
+  * look in the new kit of parts for the range finder
 * allow operator to switch between tank and arcide drive by pressing a button on the controller
 * *ADD IDEAS TO THIS LIST WHEN YOU THINK OF THEM*
 

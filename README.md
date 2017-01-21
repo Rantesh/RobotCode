@@ -50,3 +50,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 1/13 Ryan split out robot.java into 3 separate files and published the project to Github
 * 1/14 Set up Autonomous for testing, including SmartDashboard in Autonomous.  Judah has GitHub account and permissions now.
 * 1/18 Tested autonomous a ton.  Got to go straight for seven feet.  Gage, Josh, Frankie, and Hunter have GitHub with permissions.
+* 1/20 We made the Ramp class and implemented it into teleop and autonomous drive. Minor adjustments to methods in teleop.

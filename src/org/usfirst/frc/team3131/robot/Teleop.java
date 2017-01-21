@@ -11,11 +11,11 @@ public class Teleop {
 		this.myRobot = myRobot;
 	}
 	
-	private Ramp flywheel = new Ramp(1,0.02);
+	private Ramp flywheelRamp = new Ramp(1,0.02);
 	private RobotDrive myRobot;
 	private Joystick stick = new Joystick(0);
-	private TalonSRX motor = new TalonSRX (2);
-	private TalonSRX Talon = new TalonSRX(3);
+	private TalonSRX flywheelTalon = new TalonSRX (2);
+	private TalonSRX climbTalon = new TalonSRX(3);
 	
 	private static double deadband (double joystick, double range) {
 		if (-range < joystick && range > joystick) {
@@ -30,17 +30,17 @@ public class Teleop {
 	}
 
 	private void climbButton(){
-		Talon.set(stick.getRawAxis(2));
+		climbTalon.set(stick.getRawAxis(2));
 		SmartDashboard.putNumber("Climb power", stick.getRawAxis(2));
 	}
 
 	private void flyWheelRev(){
 		if (stick.getRawAxis(3) == 1){
-			motor.set(flywheel.get());			
+			flywheelTalon.set(flywheelRamp.get());			
 		}
 		else {
-			motor.set(0);
-			flywheel.reset();
+			flywheelTalon.set(0);
+			flywheelRamp.reset();
 		}
 	}
 

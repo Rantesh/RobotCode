@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3131.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -19,7 +20,7 @@ public class Robot extends IterativeRobot {
 	private Teleop teleop;
 	private AutonomousDrive auto;
 //	private Encoder enc;
-	private Ultrasonic ultra;
+	private AnalogInput ultraSonic;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -27,16 +28,15 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		myRobot = new RobotDrive(0,1);
 		teleop = new Teleop(myRobot);
-		auto = new AutonomousDrive(myRobot);
+		ultraSonic = new AnalogInput(0);
+		auto = new AutonomousDrive(myRobot,ultraSonic);
 //		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		ultra = new Ultrasonic(0,1);
-		ultra.setAutomaticMode(true);
 	}
     
     /**
      * This function is run once each time the robot enters autonomous mode
      */
-    public void autonomousInit() { //Problems here when power is not cycled between matches.
+    public void autonomousInit() { 
     	auto.autonomousInit();
     }
     
@@ -45,6 +45,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	auto.autonomousPeriodic();
+    	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
 	}
 	/**
      * This function is called once each time the robot enters tele-operated mode
@@ -69,7 +70,7 @@ public class Robot extends IterativeRobot {
     	double rate = enc.getRate();
     	boolean direction = enc.getDirection();
     	boolean stopped = enc.getStopped();*/
-    	SmartDashboard.putNumber("Ultrasonic",ultra.getRangeInches());
+    	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
     }
     
     /**

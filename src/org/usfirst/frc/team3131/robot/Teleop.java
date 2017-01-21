@@ -4,19 +4,18 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Teleop {
 	public Teleop(RobotDrive myRobot){
 		this.myRobot = myRobot;
 	}
-
-	private int counter = 0;
+	
+	private Ramp flywheel = new Ramp(1,0.02);
 	private RobotDrive myRobot;
 	private Joystick stick = new Joystick(0);
-	private TalonSRX Tally = new TalonSRX (4);
-	private TalonSRX Talon = new TalonSRX(5);
-	private Victor motor = new Victor(6);
-	private Victor loader = new Victor(7);
+	private TalonSRX motor = new TalonSRX (2);
+	private TalonSRX Talon = new TalonSRX(3);
 	
 	private static double deadband (double joystick, double range) {
 		if (-range < joystick && range > joystick) {
@@ -30,49 +29,23 @@ public class Teleop {
 		}
 	}
 
-	private void gunTrigger() {
-		if (counter == 0 && deadband(stick.getRawAxis(3),0.1) > 0){
-			counter = 1;
+	private void climbButton(){
+		Talon.set(stick.getRawAxis(2));
+		SmartDashboard.putNumber("Climb power", stick.getRawAxis(2));
+	}
+
+	private void flyWheelRev(){
+		if (stick.getRawAxis(3) == 1){
+			motor.set(flywheel.get());			
 		}
-		else if (counter < 6){
-			Tally.set(.2);
-			counter ++;
-		}
-		else if (counter < 11){
-			Tally.set(-.2);
-			counter ++;
-		}
-		else{
-			counter = 0;
+		else {
+			motor.set(0);
+			flywheel.reset();
 		}
 	}
 
-	private void climbButton(){
-		if (stick.getRawButton(3) == true){
-			Talon.set(.3);
-		}
-		else if (stick.getRawButton(3) == true){
-			Talon.set(0);
-		}
-		
-	};
-
-	private void flyWheelRev(){
-		if (deadband(stick.getRawAxis(3),0.1) == 1){
-			motor.set(1/*motorSpeed*/);
-			if (true/*motorSpeed == max*/){			//sensor in place here for revving of motor
-				loader.set(1);
-			}
-		}
-		else if (deadband(stick.getRawAxis(3),0.1) == 0){
-			motor.set(0);
-			loader.set(0);
-		}
-	};
-
 	public void teleopPeriodic() {
-        myRobot.arcadeDrive(deadband(stick.getRawAxis(5), .1),deadband(stick.getRawAxis(1), .1));
-        gunTrigger();
+        myRobot.arcadeDrive(deadband(stick.getRawAxis(1), .1),deadband(stick.getRawAxis(4), .1));
         climbButton();
         flyWheelRev();
     }

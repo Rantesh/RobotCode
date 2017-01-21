@@ -39,6 +39,7 @@ Update this readme.md file daily with a brief status update so other students co
   * http://wpilib.screenstepslive.com/s/3120/m/7912/l/85774-measuring-robot-distance-to-a-surface-using-ultrasonic-sensors
   * look in the new kit of parts for the range finder
 * allow operator to switch between tank and arcide drive by pressing a button on the controller
+* Get debugging working!
 * *ADD IDEAS TO THIS LIST WHEN YOU THINK OF THEM*
 
 ## TEST TEST TEST
@@ -48,3 +49,4 @@ Get the software on the robot as early and often as possible! This will allow us
 ## Daily Status Updates
 * 1/13 Ryan split out robot.java into 3 separate files and published the project to Github
 * 1/14 Set up Autonomous for testing, including SmartDashboard in Autonomous.  Judah has GitHub account and permissions now.
+* 1/18 Tested autonomous a ton.  Got to go straight for seven feet.  Gage, Josh, Frankie, and Hunter have GitHub with permissions.

@@ -1,7 +1,10 @@
 package org.usfirst.frc.team3131.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -15,15 +18,19 @@ public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
 	private AutonomousDrive auto;
-	
+//	private Encoder enc;
+	private Ultrasonic ultra;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		myRobot = new RobotDrive(0,1,2,3);
+		myRobot = new RobotDrive(0,1);
 		teleop = new Teleop(myRobot);
 		auto = new AutonomousDrive(myRobot);
+//		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+		ultra = new Ultrasonic(0,1);
+		ultra.setAutomaticMode(true);
 	}
     
     /**
@@ -43,7 +50,12 @@ public class Robot extends IterativeRobot {
      * This function is called once each time the robot enters tele-operated mode
      */
     public void teleopInit(){
-
+/*    	enc.setMaxPeriod(.1);
+    	enc.setMinRate(10);
+    	enc.setDistancePerPulse(5);
+    	enc.setReverseDirection(true);
+    	enc.setSamplesToAverage(7);
+    	enc.reset();*/
     } 
     
     /**
@@ -51,6 +63,13 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	teleop.teleopPeriodic();
+    	/* int count = enc.get();
+    	double raw = enc.getRaw();
+    	double distance = enc.getDistance();
+    	double rate = enc.getRate();
+    	boolean direction = enc.getDirection();
+    	boolean stopped = enc.getStopped();*/
+    	SmartDashboard.putNumber("Ultrasonic",ultra.getRangeInches());
     }
     
     /**

@@ -8,12 +8,15 @@ public class AutonomousDrive {
 		this.myRobot = myRobot;
 	}
 
+	private Ramp bob = new Ramp(1,.04); //It's a motor
 	private int autoLoopCounter;
 	private RobotDrive myRobot;
 	
 	private void runAutoStep(int minCounterValue, int maxCounterValue, double speed, double curve) {
     	if (autoLoopCounter >= minCounterValue && autoLoopCounter < maxCounterValue){
-    		myRobot.drive(speed, curve);
+    		bob.set(speed,.04);
+    		myRobot.drive(bob.get(), curve);
+    		
     	}
     }
 	
@@ -22,9 +25,9 @@ public class AutonomousDrive {
 	}
 	
 	public void autonomousPeriodic() {
-		int time = (int)(50*SmartDashboard.getNumber("Time Moving",1));
-    	runAutoStep(0,time,SmartDashboard.getNumber("Power Used",0.3),0);
-		runAutoStep(time,time+200,0,0);
+    	runAutoStep(0,50,-0.5 /*SmartDashboard.getNumber("Power Used",0.3)*/,.04);
+    	runAutoStep(50,210,-0.2,.01);
+		runAutoStep(210,10000,0,0);
 		autoLoopCounter++;
 		
 		

@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutonomousDrive {
-	AutonomousDrive(RobotDrive myRobot, AnalogInput ultraSonic){
+public class AutonomousDriver1 implements AutonomousDriver {
+	AutonomousDriver1(RobotDrive myRobot, AnalogInput ultraSonic){
 		this.myRobot = myRobot;
 		this.ultraSonic = ultraSonic;
 	}

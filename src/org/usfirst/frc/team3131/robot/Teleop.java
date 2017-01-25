@@ -30,8 +30,8 @@ public class Teleop {
 	}
 
 	private void climbButton(){
-		climbTalon.set(stick.getRawAxis(2));
-		SmartDashboard.putNumber("Climb power", stick.getRawAxis(2));
+		climbTalon.set(deadband(stick.getRawAxis(5), .05));
+		SmartDashboard.putNumber("Climb power", deadband(stick.getRawAxis(5),0.05));
 	}
 
 	private void flyWheelRev(){
@@ -48,6 +48,7 @@ public class Teleop {
         myRobot.arcadeDrive(deadband(stick.getRawAxis(1), .1),deadband(stick.getRawAxis(4), .1));
         climbButton();
         flyWheelRev();
+        
     }
 
 }

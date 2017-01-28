@@ -1,9 +1,9 @@
 package org.usfirst.frc.team3131.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.TalonSRX;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Teleop {
@@ -16,22 +16,30 @@ public class Teleop {
 	private Joystick stick = new Joystick(0);
 	private TalonSRX flywheelTalon = new TalonSRX (2);
 	private TalonSRX climbTalon = new TalonSRX(3);
-	
-	private static double deadband (double joystick, double range) {
-		if (-range < joystick && range > joystick) {
-			return 0;
-		}
-		else if (joystick > 0) {
-			return (joystick-1)/(1-range)+1;
+	private Preferences prefs = Preferences.getInstance();
+	private double preferenceStuff;
+
+	private static double deadband (double joystick, int power) {
+		if (joystick < 0 && power % 2 == 0) {
+			return -Math.pow(joystick, power);
 		}
 		else {
-			return (joystick+1)/(1-range)-1;
+			return Math.pow(joystick, power);
 		}
 	}
 
 	private void climbButton(){
-		climbTalon.set(deadband(stick.getRawAxis(5), .05));
-		SmartDashboard.putNumber("Climb power", deadband(stick.getRawAxis(5),0.05));
+		preferenceStuff = prefs.getDouble("PreferenceTesting", 0.03);
+		climbTalon.set(0.7 * stick.getRawAxis(5));
+		SmartDashboard.putNumber("Climb power", 0.7 * stick.getRawAxis(5));
+/*		if (stick.getRawAxis(5) > 0.3) {
+			climbTalon.set(preferenceStuff);
+			SmartDashboard.putNumber("Climb power", preferenceStuff);
+		}
+		else {
+			climbTalon.set(0);
+			SmartDashboard.putNumber("Climb power", 0);
+		}*/
 	}
 
 	private void flyWheelRev(){
@@ -44,11 +52,11 @@ public class Teleop {
 		}
 	}
 
+	
 	public void teleopPeriodic() {
-        myRobot.arcadeDrive(deadband(stick.getRawAxis(1), .1),deadband(stick.getRawAxis(4), .1));
-        climbButton();
-        flyWheelRev();
-        
-    }
+		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5), deadband(-stick.getRawAxis(4), 5));
+		climbButton();
+		flyWheelRev();
+	}
 
 }

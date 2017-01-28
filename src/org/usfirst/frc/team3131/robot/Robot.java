@@ -3,9 +3,7 @@ package org.usfirst.frc.team3131.robot;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,8 +24,6 @@ public class Robot extends IterativeRobot {
 	private AnalogInput ultraSonic;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
-	Preferences prefs;
-	double preferenceStuff;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -41,7 +37,6 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("Defalult Program", 1);
 		autoChooser.addObject("Experimental Auto", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
-		prefs = Preferences.getInstance();
 //		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 	}
     
@@ -49,13 +44,14 @@ public class Robot extends IterativeRobot {
      * This function is run once each time the robot enters autonomous mode
      */
     public void autonomousInit() { 
-    	auto.autonomousInit();
+    	
     	if ((int)autoChooser.getSelected() == 1) {
     		auto = new AutonomousDriver1(myRobot,ultraSonic);
     	}
     	else if ((int)autoChooser.getSelected() == 2) {
     		auto = new AutonomousDriver2();
     	}
+    	auto.autonomousInit();
     }
     
     /**
@@ -68,7 +64,7 @@ public class Robot extends IterativeRobot {
 	/**
      * This function is called once each time the robot enters tele-operated mode
      */
-    public void teleopInit(){
+	public void teleopInit(){
 /*    	enc.setMaxPeriod(.1);
     	enc.setMinRate(10);
     	enc.setDistancePerPulse(5);
@@ -76,26 +72,25 @@ public class Robot extends IterativeRobot {
     	enc.setSamplesToAverage(7);
     	enc.reset();*/	
     } 
-    
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-    	teleop.teleopPeriodic();
-    	/* int count = enc.get();
-    	double raw = enc.getRaw();
-    	double distance = enc.getDistance();
-    	double rate = enc.getRate();
-    	boolean direction = enc.getDirection();
-    	boolean stopped = enc.getStopped();*/
+	
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		teleop.teleopPeriodic();
+		/* int count = enc.get();
+		double raw = enc.getRaw();
+		double distance = enc.getDistance();
+		double rate = enc.getRate();
+		boolean direction = enc.getDirection();
+		boolean stopped = enc.getStopped();*/
     	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
-    	preferenceStuff = prefs.getDouble("PreferenceTesting", 0.03);
-    	SmartDashboard.putNumber("Preferences", preferenceStuff);
-    }
+	}
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	
     }
 }

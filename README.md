@@ -30,14 +30,6 @@ Update this readme.md file daily with a brief status update so other students co
    * where should it start and what path should it take?
    * how accurate and consistent is the robot in following the coded path? Do we need any sensors? 
    * understand the geometry of the robot and which axis it turns around
-* SmartDashboard
-  * Record how to set up SmartDashboard so we can change for every computer individually.
-* Have two (or more) different autonomous classes and toggle between them with the Smart Dashboard
-  * may be a competitive advantage because would give more options for working with alliance partners
-  * what if an alliance partner programs their autonomous mode to do what ours does? would be great to have a backup to score additional points with
-* Use the ultrasonic sensor! (need to coordinate with electrical and mechanical)
-  * http://wpilib.screenstepslive.com/s/3120/m/7912/l/85774-measuring-robot-distance-to-a-surface-using-ultrasonic-sensors
-  * look in the new kit of parts for the range finder
 * allow operator to switch between tank and arcide drive by pressing a button on the controller
 * Get debugging working!
 * *ADD IDEAS TO THIS LIST WHEN YOU THINK OF THEM*
@@ -53,3 +45,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 1/20 We made the Ramp class and implemented it into teleop and autonomous drive. Minor adjustments to methods in teleop.
 * 1/21 Got the ultraSonic sensor working.  Tested it in autonomous.
 * 1/24 Worked on SmartDashboard; got the autoSwitch working.  Helped mechanical test climbing.  Created an interface for multiple autonomous programs.  Started working on editing robot preferences from the SmartDashboard.  
+* 1/28 Changed deadband program to use a parabolic power rate.  Tested it.  It works.

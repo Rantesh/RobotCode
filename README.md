@@ -46,3 +46,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 1/21 Got the ultraSonic sensor working.  Tested it in autonomous.
 * 1/24 Worked on SmartDashboard; got the autoSwitch working.  Helped mechanical test climbing.  Created an interface for multiple autonomous programs.  Started working on editing robot preferences from the SmartDashboard.  
 * 1/28 Changed deadband program to use a parabolic power rate.  Tested it.  It works.
+* 1/31 Updated autonomous code's runAutoStep to include the distance sensor. 

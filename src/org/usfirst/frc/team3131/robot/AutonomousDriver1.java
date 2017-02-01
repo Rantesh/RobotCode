@@ -15,9 +15,13 @@ public class AutonomousDriver1 implements AutonomousDriver {
 	private int autoLoopCounter;
 	private RobotDrive myRobot;
 	
-	private void runAutoStep(int minCounterValue, int maxCounterValue, double speed, double curve) {
-    	if (autoLoopCounter >= minCounterValue && autoLoopCounter < maxCounterValue){
-    		bob.set(speed,.04);
+	private void runAutoStep(int minSeconds, int maxSeconds, double speed, double curve, double sensorRange) {
+    	if(ultraSonic.getVoltage() > sensorRange){
+    		bob.set(0, .04);
+    		myRobot.drive(bob.get(), 0);
+    	}
+		else if (autoLoopCounter >= minSeconds*50 && autoLoopCounter < maxSeconds*50){
+    		bob.set(speed, .04);
     		myRobot.drive(bob.get(), curve);
     		
     	}
@@ -28,10 +32,10 @@ public class AutonomousDriver1 implements AutonomousDriver {
 	}
 	
 	public void autonomousPeriodic() {
-/*    	runAutoStep(0,50,-0.5 ,.04);
-    	runAutoStep(50,210,-0.2,.01);
-		runAutoStep(210,10000,0,0);
-		autoLoopCounter++;*/
+    	runAutoStep(0, 5, -0.5, 0, .6);
+    	runAutoStep(5, 10, -0.2, 0, .6);
+		runAutoStep(10, 15, 0, 0, .6);
+		autoLoopCounter++;
 		
 		if (ultraSonic.getVoltage() > 0.6) {
 			bob.set(-0.45, 0.04);

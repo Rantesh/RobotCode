@@ -14,8 +14,8 @@ public class Teleop {
 	private Ramp flywheelRamp = new Ramp(1,0.02);
 	private RobotDrive myRobot;
 	private Joystick stick = new Joystick(0);
-	private TalonSRX flywheelTalon = new TalonSRX (2);
-	private TalonSRX climbTalon = new TalonSRX(3);
+	private TalonSRX flywheelTalon = new TalonSRX (3);
+	private TalonSRX climbTalon = new TalonSRX(2);
 	private Preferences prefs = Preferences.getInstance();
 	private double preferenceStuff;
 
@@ -43,6 +43,7 @@ public class Teleop {
 	}
 
 	private void flyWheelRev(){
+		//flywheelTalon.set(stick.getRawAxis(3));
 		if (stick.getRawAxis(3) == 1){
 			flywheelTalon.set(flywheelRamp.get());			
 		}
@@ -54,7 +55,7 @@ public class Teleop {
 
 	
 	public void teleopPeriodic() {
-		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5), deadband(-stick.getRawAxis(4), 5));
+		//myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5), deadband(-stick.getRawAxis(4), 5));
 		climbButton();
 		flyWheelRev();
 	}

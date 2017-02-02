@@ -17,10 +17,16 @@ public class Ramp {
 	}
 	double get() {
 		if (counter<target) {
-		counter = counter + rate; 
+			counter = counter + rate; 
+			if (counter>target){
+				counter = target;
+			}
 		}
 		else if (counter>target){
 			counter = counter - rate;
+			if (counter<target){
+				counter = target;
+			}
 		}
 		return counter;
 	}

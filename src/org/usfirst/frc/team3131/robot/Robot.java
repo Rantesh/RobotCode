@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +23,7 @@ public class Robot extends IterativeRobot {
 	private AutonomousDriver auto;
 //	private Encoder enc;
 	private AnalogInput ultraSonic;
+	private TalonSRX flywheelTalon;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
 	
@@ -31,7 +33,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		myRobot = new RobotDrive(0,1);
-		teleop = new Teleop(myRobot);
+		flywheelTalon = new TalonSRX(2);
+		teleop = new Teleop(myRobot, flywheelTalon);
 		ultraSonic = new AnalogInput(0);
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Defalult Program", 1);
@@ -46,7 +49,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() { 
     	
     	if ((int)autoChooser.getSelected() == 1) {
-    		auto = new AutonomousDriver1(myRobot,ultraSonic);
+    		auto = new AutonomousDriver1(myRobot, ultraSonic, flywheelTalon);
     	}
     	else if ((int)autoChooser.getSelected() == 2) {
     		auto = new AutonomousDriver2();

@@ -7,15 +7,16 @@ import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Teleop {
-	public Teleop(RobotDrive myRobot){
+	public Teleop(RobotDrive myRobot, TalonSRX flywheelTalon){
 		this.myRobot = myRobot;
+		this.flywheelTalon = flywheelTalon;
 	}
 	
 	private Ramp flywheelRamp = new Ramp(1,0.02);
 	private RobotDrive myRobot;
 	private Joystick stick = new Joystick(0);
-	private TalonSRX flywheelTalon = new TalonSRX (3);
-	private TalonSRX climbTalon = new TalonSRX(2);
+	private TalonSRX flywheelTalon;
+	private TalonSRX climbTalon = new TalonSRX(3);
 	private Preferences prefs = Preferences.getInstance();
 	private double preferenceStuff;
 
@@ -55,7 +56,7 @@ public class Teleop {
 
 	
 	public void teleopPeriodic() {
-		//myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5), deadband(-stick.getRawAxis(4), 5));
+		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5), deadband(-stick.getRawAxis(4), 5));
 		climbButton();
 		flyWheelRev();
 	}

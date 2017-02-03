@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		myRobot = new RobotDrive(0,1);
-		flywheelTalon = new TalonSRX(2);
+		flywheelTalon = new TalonSRX(3);
 		teleop = new Teleop(myRobot, flywheelTalon);
 		ultraSonic = new AnalogInput(0);
 		autoChooser = new SendableChooser();

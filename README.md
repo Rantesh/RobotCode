@@ -49,3 +49,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 1/31 Updated autonomous code's runAutoStep to include the distance sensor. 
 * 2/1 Autonomous - got our first autonomous working (must test for precision, still). Could not test the distance sensor code for it, though.
 * 2/2 Set up climbTalon to work with a Ramp.  Started planning for a complete change in how Autonomous runs (command based).
+* 2/3 Created commands for Autonomous2

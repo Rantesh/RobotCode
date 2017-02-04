@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
     		auto = new AutonomousDriver1(myRobot, ultraSonic, flywheelTalon);
     	}
     	else if ((int)autoChooser.getSelected() == 2) {
-    		auto = new AutonomousDriver2();
+    		auto = new AutonomousDriver2(myRobot, ultraSonic);
     	}
     	auto.autonomousInit();
     }

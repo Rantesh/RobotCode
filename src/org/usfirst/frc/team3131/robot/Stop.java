@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3131.robot;
 
+import java.util.Date;
+
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class Stop {
@@ -7,21 +9,26 @@ public class Stop {
 		this.myRobot = myRobot;
 	}
 	
-RobotDrive myRobot;
-int counter;
+	RobotDrive myRobot;
+	private Date startTime;
+	private Date currentTime;
 
-public void Periodic() {
-	myRobot.drive(0, 0);
-}
+	public void init() {
+		startTime = new Date();
+	}
+	
+	public void periodic() {
+		myRobot.drive(0, 0);
+		currentTime = new Date();
+	}
 
-public boolean StopStop() {
-	if (counter == 100) {
-		return true;
+	public boolean finished() {
+		if (currentTime.getTime() >= startTime.getTime() + 1000) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
-	else {
-		counter = counter+1;
-		return false;
-	}
-}
 
 }

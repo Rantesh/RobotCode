@@ -1,27 +1,35 @@
 package org.usfirst.frc.team3131.robot;
 
+import java.util.Date;
+
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class BackStraight {
-	BackStraight(RobotDrive myRobot) {
+	BackStraight(RobotDrive myRobot, Ramp ramp) {
 		this.myRobot = myRobot;	
+		this.ramp = ramp;
 	}
 	
-RobotDrive myRobot;
-int counter;
-
-public void Periodic() {
-	myRobot.drive(.7, 0);
-}
-public boolean Timer() {
-	if (counter == 100) {
-		return true;
+	RobotDrive myRobot;
+	private Date startTime;
+	private Date currentTime;
+	private Ramp ramp;
+	
+	public void init(){
+		startTime = new Date();
 	}
-	else {
-		counter = counter+1;
-		return false;
+
+	public void periodic() {
+		myRobot.drive(ramp.get(), 0);
+		currentTime = new Date();
 	}
-}	
-
-
+	
+	public boolean finished() {
+		if (currentTime.getTime() >= startTime.getTime() + 1000) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}	
 }

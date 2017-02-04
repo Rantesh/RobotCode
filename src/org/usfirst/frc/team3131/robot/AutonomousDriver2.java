@@ -13,32 +13,31 @@ public class AutonomousDriver2 implements AutonomousDriver{
 	RobotDrive myRobot;
 	AnalogInput ultraSonic; 
 	
-	ForwardUntilWall forward = new ForwardUntilWall(myRobot, ultraSonic);
-	Stop stop = new Stop(myRobot);
-	BackCurve curve = new BackCurve(myRobot);
-	BackStraight back = new BackStraight(myRobot);
+	private ForwardUntilWall forward = new ForwardUntilWall(myRobot, ultraSonic);
+	private Stop stop = new Stop(myRobot);
+	private Ramp ramp = new Ramp(.5, .04);
+	private BackCurve curve = new BackCurve(myRobot, ramp);
+	private BackStraight back = new BackStraight(myRobot, ramp);
 	
-	
-	@Override
 	public void autonomousInit() {
-		// TODO Auto-generated method stub
-		
+		forward.init();
+		stop.init();
+		curve.init();
+		back.init();
 	}
 
-	@Override
 	public void autonomousPeriodic() {
-		// TODO Auto-generated method stub
-		if (!forward.HasHitWall()) {
-			forward.Periodic();
+		if (!forward.finished()) {
+			forward.periodic();
 		}
-		else if (!stop.StopStop())	{
-			stop.Periodic();
+		else if (!stop.finished())	{
+			stop.periodic();
 		}
-		else if (!curve.Timer()) {
-			curve.Periodic();
+		else if (!curve.finished()) {
+			curve.periodic();
 		}
-		else if (!back.Timer()) {
-			back.Periodic();
+		else if (!back.finished()) {
+			back.periodic();
 		}
 		else {
 			myRobot.drive(0, 0);

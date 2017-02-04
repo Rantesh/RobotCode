@@ -3,6 +3,7 @@ package org.usfirst.frc.team3131.robot;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,6 +27,10 @@ public class Robot extends IterativeRobot {
 	private TalonSRX flywheelTalon;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
+	Preferences prefs;
+	
+	double driveMultiplier;
+	double armDownPosition;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -40,6 +45,9 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("Defalult Program", 1);
 		autoChooser.addObject("Experimental Auto", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
+		prefs = Preferences.getInstance();
+		driveMultiplier = prefs.getDouble("Drive Multiplier", 1.0); //Validate this number!
+		armDownPosition = prefs.getDouble("abc", 4);
 //		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 	}
     

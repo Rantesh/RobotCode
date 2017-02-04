@@ -12,23 +12,22 @@ public class Stop {
 	RobotDrive myRobot;
 	private Date startTime;
 	private Date currentTime;
+	private boolean initialized;
 
-	public void init() {
+	private void init() {
 		startTime = new Date();
+		initialized = true;
 	}
 	
 	public void periodic() {
+		if (!initialized){
+			init();
+		}
 		myRobot.drive(0, 0);
 		currentTime = new Date();
 	}
 
 	public boolean finished() {
-		if (currentTime.getTime() >= startTime.getTime() + 1000) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (currentTime.getTime() >= startTime.getTime() + 1000);
 	}
-
 }

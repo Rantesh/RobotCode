@@ -67,7 +67,7 @@ public class Teleop {
 
 	
 	public void teleopPeriodic() {
-		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5), deadband(-stick.getRawAxis(4), 5));
+		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5)*.5, deadband(-stick.getRawAxis(4), 5)*.5);
 		climbButton();
 		flyWheelRev();
 	}

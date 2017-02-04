@@ -14,23 +14,22 @@ public class BackCurve {
 	private Date startTime;
 	private Date currentTime;
 	private Ramp ramp;
+	private boolean initialized;
 	
-	public void init(){
+	private void init(){
 		startTime = new Date();
 		ramp.reset();
+		initialized = true;
 	}
 	
 	public void periodic() {
+		if (!initialized){
+			init();
+		}
 		myRobot.drive(ramp.get(), .4);
 		currentTime = new Date();
 	}
 	public boolean finished() {
-		if (currentTime.getTime() >= startTime.getTime() + 2500) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (currentTime.getTime() >= startTime.getTime() + 2500);
 	}	
-
 }

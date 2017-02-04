@@ -20,10 +20,6 @@ public class AutonomousDriver2 implements AutonomousDriver{
 	private BackStraight back = new BackStraight(myRobot, ramp);
 	
 	public void autonomousInit() {
-		forward.init();
-		stop.init();
-		curve.init();
-		back.init();
 	}
 
 	public void autonomousPeriodic() {

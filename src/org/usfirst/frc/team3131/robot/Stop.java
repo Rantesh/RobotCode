@@ -4,17 +4,16 @@ import java.util.Date;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 
-public class Stop {
+public class Stop implements AutoCommand {
 	Stop(RobotDrive myRobot) {
 		this.myRobot = myRobot;
 	}
 	
 	RobotDrive myRobot;
 	private Date startTime;
-	private Date currentTime;
 	private boolean initialized;
 
-	private void init() {
+	public void init() {
 		startTime = new Date();
 		initialized = true;
 	}
@@ -24,10 +23,13 @@ public class Stop {
 			init();
 		}
 		myRobot.drive(0, 0);
-		currentTime = new Date();
 	}
 
 	public boolean finished() {
+		if (!initialized){
+			return false;
+		}
+		Date currentTime = new Date();
 		return (currentTime.getTime() >= startTime.getTime() + 1000);
 	}
 }

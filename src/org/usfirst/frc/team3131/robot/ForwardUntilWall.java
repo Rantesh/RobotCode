@@ -5,21 +5,23 @@ import java.util.Date;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotDrive;
 
-public class ForwardUntilWall {
+public class ForwardUntilWall implements AutoCommand {
 	ForwardUntilWall(RobotDrive myRobot, AnalogInput ultraSonic) {
 		this.myRobot = myRobot;	
 		this.ultraSonic = ultraSonic;
+		if (ultraSonic == null) {
+			throw new Error("UltraSonic is Null!  ");
+		}
 	}
 	
 	RobotDrive myRobot;
 	AnalogInput ultraSonic; 
 	private Date startTime;
-	private Date currentTime;
 	private boolean isFinished;
 	private Ramp ramp = new Ramp(-.5, .04);
 	private boolean initialized;
 	
-	private void init() {
+	public void init() {
 		startTime = new Date();
 		isFinished = false;
 		ramp.reset();
@@ -30,15 +32,18 @@ public class ForwardUntilWall {
 		if (!initialized){
 			init();
 		}
-		ramp.set(Math.min(-.5*ultraSonic.getVoltage(), .5), .04);
-		myRobot.drive(ramp.get(), 0);
-		currentTime = new Date();
+		ramp.set(Math.min(.5*ultraSonic.getVoltage(), .5), .04);
+		myRobot.drive(-ramp.get(), 0);
 	}
 
 	public boolean finished() {
-		if (isFinished) {
+		if (!initialized){
+			return false;
+		}
+		else if (isFinished) {
 			return true;
 		}
+		Date currentTime = new Date();
 		isFinished = (.6 > ultraSonic.getVoltage() && currentTime.getTime() >= startTime.getTime() + 1000);
 		return isFinished;
 	}

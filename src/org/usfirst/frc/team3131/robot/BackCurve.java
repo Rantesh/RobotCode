@@ -4,7 +4,7 @@ import java.util.Date;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 
-public class BackCurve {
+public class BackCurve implements AutoCommand {
 	BackCurve(RobotDrive myRobot, Ramp ramp) {
 		this.myRobot = myRobot;	
 		this.ramp = ramp;
@@ -12,11 +12,10 @@ public class BackCurve {
 	
 	RobotDrive myRobot;
 	private Date startTime;
-	private Date currentTime;
 	private Ramp ramp;
 	private boolean initialized;
 	
-	private void init(){
+	public void init(){
 		startTime = new Date();
 		ramp.reset();
 		initialized = true;
@@ -27,9 +26,12 @@ public class BackCurve {
 			init();
 		}
 		myRobot.drive(ramp.get(), .4);
-		currentTime = new Date();
 	}
 	public boolean finished() {
+		if (!initialized){
+			return false;
+		}
+		Date currentTime = new Date();
 		return (currentTime.getTime() >= startTime.getTime() + 2500);
 	}	
 }

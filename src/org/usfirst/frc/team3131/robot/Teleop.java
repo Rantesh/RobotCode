@@ -16,7 +16,7 @@ public class Teleop {
 	private RobotDrive myRobot;
 	private Joystick stick = new Joystick(0);
 	private TalonSRX flywheelTalon;
-	private TalonSRX climbTalon = new TalonSRX(2);
+	private TalonSRX climbTalon = new TalonSRX(3);
 	private Preferences prefs = Preferences.getInstance();
 	private double preferenceStuff;
 	private Ramp climberRamp = new Ramp(1, .02);
@@ -31,8 +31,7 @@ public class Teleop {
 	}
 
 	private void climbButton(){
-		preferenceStuff = prefs.getDouble("PreferenceTesting", 0.03);
-		if (stick.getRawButton(1) == stick.getRawButton(4)){
+/*		if (stick.getRawButton(1) == stick.getRawButton(4)){
 			climberRamp.reset();
 			climbTalon.set(0); 	
 		}
@@ -43,19 +42,11 @@ public class Teleop {
 		else if (stick.getRawButton(1) == true){
 			climberRamp.set(-1, .02);
 			climbTalon.set(climberRamp.get());
-		}
-/*		if (stick.getRawAxis(5) > 0.3) {
-			climbTalon.set(preferenceStuff);
-			SmartDashboard.putNumber("Climb power", preferenceStuff);
-		}
-		else {
-			climbTalon.set(0);
-			SmartDashboard.putNumber("Climb power", 0);
 		}*/
+		climbTalon.set(deadband(stick.getRawAxis(5),5));
 	}
 
 	private void flyWheelRev(){
-		//flywheelTalon.set(stick.getRawAxis(3));
 		if (stick.getRawAxis(3) == 1){
 			flywheelTalon.set(flywheelRamp.get());			
 		}
@@ -67,7 +58,7 @@ public class Teleop {
 
 	
 	public void teleopPeriodic() {
-		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5)*.5, deadband(-stick.getRawAxis(4), 5)*.5);
+		//myRobot.arcadeDrive(deadband(-stick.getRawAxis(1), 5)*.7, deadband(-stick.getRawAxis(4), 5)*.7);
 		climbButton();
 		flyWheelRev();
 	}

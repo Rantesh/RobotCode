@@ -51,3 +51,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/2 Set up climbTalon to work with a Ramp.  Started planning for a complete change in how Autonomous runs (command based).
 * 2/3 Created commands for Autonomous2
 * 2/4 Major rewrite of Autonomous2 and its commands, started working on preferences, and did some teleop testing.
+* 2/7 Created and began implementing the interface AutoCommand.  Fixed bugs in AutonomousDriver2 that prevented it from running.

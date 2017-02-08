@@ -4,7 +4,7 @@ import java.util.Date;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 
-public class BackStraight {
+public class BackStraight implements AutoCommand {
 	BackStraight(RobotDrive myRobot, Ramp ramp) {
 		this.myRobot = myRobot;	
 		this.ramp = ramp;
@@ -12,11 +12,10 @@ public class BackStraight {
 	
 	RobotDrive myRobot;
 	private Date startTime;
-	private Date currentTime;
 	private Ramp ramp;
 	private boolean initialized;
 	
-	private void init(){
+	public void init(){
 		startTime = new Date();
 	}
 
@@ -25,10 +24,13 @@ public class BackStraight {
 			init();
 		}
 		myRobot.drive(ramp.get(), 0);
-		currentTime = new Date();
 	}
 	
 	public boolean finished() {
+		if (!initialized){
+			return false;
+		}
+		Date currentTime = new Date();
 		return (currentTime.getTime() >= startTime.getTime() + 1000);
 	}	
 }

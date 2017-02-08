@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		myRobot = new RobotDrive(0,1);
-		flywheelTalon = new TalonSRX(3);
+		flywheelTalon = new TalonSRX(2);
 		teleop = new Teleop(myRobot, flywheelTalon);
 		ultraSonic = new AnalogInput(0);
 		autoChooser = new SendableChooser();
@@ -46,8 +46,6 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Experimental Auto", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
-		driveMultiplier = prefs.getDouble("Drive Multiplier", 1.0); //Validate this number!
-		armDownPosition = prefs.getDouble("abc", 4);
 //		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 	}
     
@@ -89,6 +87,10 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		teleop.teleopPeriodic();
+		driveMultiplier = prefs.getDouble("Drive Multiplier", 1.0); //Validate this number!
+		armDownPosition = prefs.getDouble("abc", 4);
+		SmartDashboard.putNumber("ArmUpPosition", driveMultiplier);
+		SmartDashboard.putNumber("abc", armDownPosition);
 		/* int count = enc.get();
 		double raw = enc.getRaw();
 		double distance = enc.getDistance();

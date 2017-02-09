@@ -19,7 +19,7 @@ public class AutonomousDriver2 implements AutonomousDriver{
 	
 	private ForwardUntilWall forward;
 	private Stop stop;
-	private Ramp ramp = new Ramp(.5, .04);
+	private Ramp ramp = new Ramp(-0.5, .04);
 	private BackCurve curve;
 	private BackStraight back;
 	

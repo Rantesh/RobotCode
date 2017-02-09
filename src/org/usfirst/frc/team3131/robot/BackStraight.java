@@ -14,6 +14,7 @@ public class BackStraight implements AutoCommand {
 	private Date startTime;
 	private Ramp ramp;
 	private boolean initialized;
+	public boolean isFinished = false;
 	
 	public void init(){
 		startTime = new Date();
@@ -27,10 +28,15 @@ public class BackStraight implements AutoCommand {
 	}
 	
 	public boolean finished() {
-		if (!initialized){
+		if (isFinished) {
+			initialized = false;
+			return true;
+		}
+		else if (!initialized){
 			return false;
 		}
 		Date currentTime = new Date();
-		return (currentTime.getTime() >= startTime.getTime() + 1000);
+		isFinished = (currentTime.getTime() >= startTime.getTime() + 1000);
+		return isFinished;
 	}	
 }

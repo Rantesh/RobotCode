@@ -17,13 +17,12 @@ public class ForwardUntilWall implements AutoCommand {
 	RobotDrive myRobot;
 	AnalogInput ultraSonic; 
 	private Date startTime;
-	private boolean isFinished;
+	public boolean isFinished = false;
 	private Ramp ramp = new Ramp(-.5, .04);
 	private boolean initialized;
 	
 	public void init() {
 		startTime = new Date();
-		isFinished = false;
 		ramp.reset();
 		initialized = true;
 	}
@@ -33,18 +32,19 @@ public class ForwardUntilWall implements AutoCommand {
 			init();
 		}
 		ramp.set(Math.min(.5*ultraSonic.getVoltage(), .5), .04);
-		myRobot.drive(-ramp.get(), 0);
+		myRobot.drive(ramp.get(), 0);
 	}
 
 	public boolean finished() {
 		if (!initialized){
 			return false;
 		}
-		else if (isFinished) {
+		if (isFinished) {
+			//throw new Error("isFinished == true");
 			return true;
 		}
 		Date currentTime = new Date();
-		isFinished = (.6 > ultraSonic.getVoltage() && currentTime.getTime() >= startTime.getTime() + 1000);
+		isFinished = (.6 < ultraSonic.getVoltage() && currentTime.getTime() >= startTime.getTime() + 1000);
 		return isFinished;
 	}
 }

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3131.robot;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -20,6 +21,8 @@ public class Teleop {
 	private Preferences prefs = Preferences.getInstance();
 	private double preferenceStuff;
 	private Ramp climberRamp = new Ramp(1, .02);
+	private DigitalOutput blue = new DigitalOutput(0);
+	private DigitalOutput red = new DigitalOutput(1);
 
 	private static double deadband (double joystick, int power) {
 		if (joystick < 0 && power % 2 == 0) {
@@ -58,9 +61,13 @@ public class Teleop {
 
 	
 	public void teleopPeriodic() {
-		//myRobot.arcadeDrive(deadband(-stick.getRawAxis(1), 5)*.7, deadband(-stick.getRawAxis(4), 5)*.7);
+		myRobot.arcadeDrive(deadband(-stick.getRawAxis(1), 5)*.7, deadband(-stick.getRawAxis(4), 5)*.7);
 		climbButton();
 		flyWheelRev();
+		blue.set(stick.getRawButton(2));
+		red.set(stick.getRawButton(3));
+		SmartDashboard.putBoolean("Red", stick.getRawButton(3));
+		SmartDashboard.putBoolean("Blue", stick.getRawButton(2));
 	}
 
 }

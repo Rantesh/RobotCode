@@ -14,6 +14,7 @@ public class BackCurve implements AutoCommand {
 	private Date startTime;
 	private Ramp ramp;
 	private boolean initialized;
+	public boolean isFinished = false;
 	
 	public void init(){
 		startTime = new Date();
@@ -25,13 +26,18 @@ public class BackCurve implements AutoCommand {
 		if (!initialized){
 			init();
 		}
-		myRobot.drive(ramp.get(), .4);
+		myRobot.drive(ramp.get(), -0.4);
 	}
 	public boolean finished() {
-		if (!initialized){
+		if (isFinished) {
+			initialized = false;
+			return true;
+		}
+		else if (!initialized){
 			return false;
 		}
 		Date currentTime = new Date();
-		return (currentTime.getTime() >= startTime.getTime() + 2500);
+		isFinished = (currentTime.getTime() >= startTime.getTime() + 2500);
+		return isFinished;
 	}	
 }

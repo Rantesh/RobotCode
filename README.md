@@ -53,3 +53,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/4 Major rewrite of Autonomous2 and its commands, started working on preferences, and did some teleop testing.
 * 2/7 Created and began implementing the interface AutoCommand.  Fixed bugs in AutonomousDriver2 that prevented it from running.
 * 2/8 Got a ton of errors for ForwardUntilWall and apparently fixed them.
+* 2/9 AUTODRIVER2 WORKS!!!!  65 POINTS IN THE BAG! The ultraSonic sensor appears to be broke, so we are making due without..

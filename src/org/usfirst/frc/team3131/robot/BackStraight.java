@@ -18,6 +18,7 @@ public class BackStraight implements AutoCommand {
 	
 	public void init(){
 		startTime = new Date();
+		initialized = true;
 	}
 
 	public void periodic() {

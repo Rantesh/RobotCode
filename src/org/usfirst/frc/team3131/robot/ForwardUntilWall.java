@@ -31,7 +31,7 @@ public class ForwardUntilWall implements AutoCommand {
 		if (!initialized){
 			init();
 		}
-		ramp.set(Math.min(.5*ultraSonic.getVoltage(), .5), .04);
+		ramp.set(/*Math.min(.5*ultraSonic.getVoltage(), .5) - Disabled temporarily because UltraSonic sensor is broken*/ .4, .04);
 		myRobot.drive(ramp.get(), 0);
 	}
 
@@ -44,7 +44,7 @@ public class ForwardUntilWall implements AutoCommand {
 			return true;
 		}
 		Date currentTime = new Date();
-		isFinished = (.6 < ultraSonic.getVoltage() && currentTime.getTime() >= startTime.getTime() + 1000);
+		isFinished = (/*.6 > ultraSonic.getVoltage() || Same as above, enable if the Ultrasonic sensor is working correctly*/ currentTime.getTime() >= startTime.getTime() + 1500);
 		return isFinished;
 	}
 }

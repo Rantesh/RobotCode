@@ -42,8 +42,9 @@ public class Robot extends IterativeRobot {
 		teleop = new Teleop(myRobot, flywheelTalon);
 		ultraSonic = new AnalogInput(0);
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Defalult Program", 1);
-		autoChooser.addObject("Experimental Auto", 2);
+		autoChooser.addDefault("Auto Bad :(", 1);
+		autoChooser.addObject("Auto Forward", 2);
+		autoChooser.addObject("Auto Right", 3);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
 //		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
@@ -59,6 +60,9 @@ public class Robot extends IterativeRobot {
     	}
     	else if ((int)autoChooser.getSelected() == 2) {
     		auto = new AutonomousDriver2(myRobot, ultraSonic);
+    	}
+    	else if ((int)autoChooser.getSelected() == 3){
+    		auto = new AutonomousDriver3(myRobot);
     	}
     	auto.autonomousInit();
     }

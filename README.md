@@ -54,3 +54,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/7 Created and began implementing the interface AutoCommand.  Fixed bugs in AutonomousDriver2 that prevented it from running.
 * 2/8 Got a ton of errors for ForwardUntilWall and apparently fixed them.
 * 2/9 AUTODRIVER2 WORKS!!!!  65 POINTS IN THE BAG! The ultraSonic sensor appears to be broke, so we are making due without..
+* 2/10 Made a new autonomous program for the right gear position, isn't quite working yet.

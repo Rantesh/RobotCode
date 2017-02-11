@@ -55,3 +55,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/8 Got a ton of errors for ForwardUntilWall and apparently fixed them.
 * 2/9 AUTODRIVER2 WORKS!!!!  65 POINTS IN THE BAG! The ultraSonic sensor appears to be broke, so we are making due without..
 * 2/10 Made a new autonomous program for the right gear position, isn't quite working yet.
+* 2/11 Refactored Auto2 and Auto3, tested Auto2 and works successfuly, tested Auto3 and it appears to use Forward and ForwardCurve, but nothing else.

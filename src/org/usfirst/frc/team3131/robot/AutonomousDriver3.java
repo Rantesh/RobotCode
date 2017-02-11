@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class AutonomousDriver3 implements AutonomousDriver{
 	
 	AutonomousDriver3(RobotDrive myRobot){
-		this.myRobot = myRobot;
 		forward = new Forward3(myRobot, ramp);
 		forwardCurve = new ForwardCurve3(myRobot, ramp);
 		stop = new Stop(myRobot);
@@ -13,7 +12,6 @@ public class AutonomousDriver3 implements AutonomousDriver{
 		backStraight = new BackStraight(myRobot, ramp);
 	}
 	
-	private RobotDrive myRobot;
 	private Ramp ramp = new Ramp(-.5, .04);
 	private Forward3 forward;
 	private ForwardCurve3 forwardCurve;
@@ -25,19 +23,19 @@ public class AutonomousDriver3 implements AutonomousDriver{
 	}
 	
 	public void autonomousPeriodic(){
-		if (!forward.finished()) {
+		if (!forward.isFinished()) {
 			forward.periodic();
 		}
-		if (!forwardCurve.finished()) {
+		if (!forwardCurve.isFinished()) {
 			forwardCurve.periodic();
 		}
-		if (!stop.finished()) {
+		if (!stop.isFinished()) {
 			stop.periodic();
 		}
-		if (!backCurve.finished()) {
+		if (!backCurve.isFinished()) {
 			backCurve.periodic();
 		}
-		if (!backStraight.finished()) {
+		if (!backStraight.isFinished()) {
 			backStraight.periodic();
 		}
 	}

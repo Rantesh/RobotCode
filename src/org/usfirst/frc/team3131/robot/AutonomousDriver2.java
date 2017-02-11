@@ -27,16 +27,16 @@ public class AutonomousDriver2 implements AutonomousDriver{
 	}
 
 	public void autonomousPeriodic() {
-		if (!forward.finished()) {
+		if (!forward.isFinished()) {
 			forward.periodic();
 		}
-		else if (!stop.finished())	{
+		else if (!stop.isFinished())	{
 			stop.periodic();
 		}
-		else if (!curve.finished()) {
+		else if (!curve.isFinished()) {
 			curve.periodic();
 		}
-		else if (!back.finished()) {
+		else if (!back.isFinished()) {
 			back.periodic();
 		}
 		else {

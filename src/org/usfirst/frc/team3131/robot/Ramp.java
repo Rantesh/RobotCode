@@ -1,19 +1,22 @@
 package org.usfirst.frc.team3131.robot;
 
 public class Ramp {
-	Ramp(double target, double rate) {
+	Ramp(double target, double counter) {
 		this.target=target;
-		this.rate=rate;
+		this.counter=counter;
 	}
 	private double counter=0;
 	private double target;
-	private double rate;
+	private double rate = 0.04;
 	public void reset() {
 		counter=0;
 	}
-	public void set(double target,double rate) {
+	public void set(double target) {
 		this.target=target;
-		this.rate=rate;
+	}
+	public void set(double target, double counter) {
+		this.target=target;
+		this.counter=counter;
 	}
 	double get() {
 		if (counter<target) {

@@ -3,14 +3,13 @@ package org.usfirst.frc.team3131.robot;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class BackCurve extends TimedAutoCommand {
-	BackCurve(RobotDrive myRobot, Ramp ramp) {
-		super(1500);
+	BackCurve(RobotDrive myRobot, int milliseconds) {
+		super(milliseconds);
 		this.myRobot = myRobot;	
-		this.ramp = ramp;
 	}
 	
 	RobotDrive myRobot;
-	private Ramp ramp;
+	private Ramp ramp = new Ramp(-.5, 0);
 	
 	void init(){
 		ramp.reset();

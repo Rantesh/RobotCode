@@ -3,8 +3,8 @@ package org.usfirst.frc.team3131.robot;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class Stop extends TimedAutoCommand {
-	Stop(RobotDrive myRobot) {
-		super(1500);
+	Stop(RobotDrive myRobot, int milliseconds) {
+		super(milliseconds);
 		this.myRobot = myRobot;
 	}
 	

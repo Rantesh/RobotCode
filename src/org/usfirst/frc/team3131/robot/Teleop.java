@@ -13,14 +13,14 @@ public class Teleop {
 		this.flywheelTalon = flywheelTalon;
 	}
 	
-	private Ramp flywheelRamp = new Ramp(1, .02);
+	private Ramp flywheelRamp = new Ramp(1, 0);
 	private RobotDrive myRobot;
 	private Joystick stick = new Joystick(0);
 	private TalonSRX flywheelTalon;
 	private TalonSRX climbTalon = new TalonSRX(3);
 	private Preferences prefs = Preferences.getInstance();
 	private double preferenceStuff;
-	private Ramp climberRamp = new Ramp(1, .02);
+	private Ramp climberRamp = new Ramp(1, 0);
 	private DigitalOutput blue = new DigitalOutput(0);
 	private DigitalOutput red = new DigitalOutput(1);
 

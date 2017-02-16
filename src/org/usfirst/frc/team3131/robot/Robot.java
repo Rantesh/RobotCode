@@ -21,16 +21,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
-	private AutonomousDriver auto;
 //	private Encoder enc;
 	private AnalogInput ultraSonic;
 	private TalonSRX flywheelTalon;
+	private AutoCommand[] commands;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
 	Preferences prefs;
 	
 	double driveMultiplier;
 	double armDownPosition;
+	
+	private AutoCommand[] getCommandsForAutonomous2() {
+		AutoCommand[] commands = new AutoCommand[5];
+		commands[0] = new Forward(myRobot, 1500);
+		commands[1] = new ForwardCurve3(myRobot, 1500);
+		commands[2] = new Stop(myRobot, 2000);
+		commands[3] = new BackCurve3(myRobot, 1500);
+		commands[4] = new BackStraight(myRobot, 1500);
+		return commands;
+	}
+	
+	private AutoCommand[] getCommandsForAutonomous1() {
+		AutoCommand[] commands = new AutoCommand[4];
+		commands[0] = new Forward(myRobot, 1500);
+		commands[1] = new Stop(myRobot, 2000);
+		commands[2] = new BackCurve(myRobot, 1500);
+		commands[3] = new BackStraight(myRobot, 1500);
+		return commands;
+	}
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -42,9 +61,8 @@ public class Robot extends IterativeRobot {
 		teleop = new Teleop(myRobot, flywheelTalon);
 		ultraSonic = new AnalogInput(0);
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Auto Bad :(", 1);
-		autoChooser.addObject("Auto Forward", 2);
-		autoChooser.addObject("Auto Right", 3);
+		autoChooser.addDefault("Auto Forward", 1);
+		autoChooser.addObject("Auto Right", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
 //		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
@@ -56,22 +74,25 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() { 
     	
     	if ((int)autoChooser.getSelected() == 1) {
-    		auto = new AutonomousDriver1(myRobot, ultraSonic, flywheelTalon);
+    		commands = getCommandsForAutonomous1();
     	}
-    	else if ((int)autoChooser.getSelected() == 2) {
-    		auto = new AutonomousDriver2(myRobot, ultraSonic);
+    	else if ((int)autoChooser.getSelected() == 2){
+    		commands = getCommandsForAutonomous2();
     	}
-    	else if ((int)autoChooser.getSelected() == 3){
-    		auto = new AutonomousDriver3(myRobot);
-    	}
-    	auto.autonomousInit();
     }
     
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
-    	auto.autonomousPeriodic();
+    public void autonomousPeriodic(){
+    	for(int i=0; i<commands.length; ++i) {
+    		if (!commands[i].isFinished()) {
+    			commands[i].periodic();
+    			return;
+    		}
+    	}
+    	myRobot.drive(0,0);
+    
     	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
 	}
 	/**

@@ -3,20 +3,18 @@ package org.usfirst.frc.team3131.robot;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class ForwardCurve3 extends TimedAutoCommand {
-	ForwardCurve3(RobotDrive myRobot, Ramp ramp) {
-		super(1500);
+	ForwardCurve3(RobotDrive myRobot, int milliseconds) {
+		super(milliseconds);
 		this.myRobot = myRobot;	
-		this.ramp = ramp;
 	}
 	
 	RobotDrive myRobot;
-	private Ramp ramp;
+	private Ramp ramp = new Ramp(.4, .4);
 	
 	public void init(){
 	}
 	
 	public void periodicStuff() {
-		ramp.set(.4, .04);
 		myRobot.drive(ramp.get(), 0.35);
 	}
 }

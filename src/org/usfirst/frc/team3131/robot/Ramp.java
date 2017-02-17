@@ -7,7 +7,7 @@ public class Ramp {
 	}
 	private double counter=0;
 	private double target;
-	private double rate = 0.04;
+	private double rate = 0.01;
 	public void reset() {
 		counter=0;
 	}

@@ -32,24 +32,26 @@ public class Robot extends IterativeRobot {
 	double driveMultiplier;
 	double armDownPosition;
 	
+	private AutoCommand[] getCommandsForAutonomous1() {
+		AutoCommand[] commands = new AutoCommand[4];
+		commands[0] = new Forward(myRobot, 1600);
+		commands[1] = new Stop(myRobot, 2000);
+		commands[2] = new BackCurve(myRobot, 2500);
+		commands[3] = new BackStraight(myRobot, 1500);
+		return commands;
+	}
+	
 	private AutoCommand[] getCommandsForAutonomous2() {
 		AutoCommand[] commands = new AutoCommand[5];
 		commands[0] = new Forward(myRobot, 1500);
 		commands[1] = new ForwardCurve3(myRobot, 1500);
 		commands[2] = new Stop(myRobot, 2000);
-		commands[3] = new BackCurve3(myRobot, 1500);
+		commands[3] = new BackCurve3(myRobot, 2000);
 		commands[4] = new BackStraight(myRobot, 1500);
 		return commands;
 	}
 	
-	private AutoCommand[] getCommandsForAutonomous1() {
-		AutoCommand[] commands = new AutoCommand[4];
-		commands[0] = new Forward(myRobot, 1500);
-		commands[1] = new Stop(myRobot, 2000);
-		commands[2] = new BackCurve(myRobot, 1500);
-		commands[3] = new BackStraight(myRobot, 1500);
-		return commands;
-	}
+	
 	
 	/**
 	 * This function is run when the robot is first started up and should be

@@ -9,12 +9,11 @@ public class ForwardCurve3 extends TimedAutoCommand {
 	}
 	
 	RobotDrive myRobot;
-	private Ramp ramp = new Ramp(.4, .4);
 	
 	public void init(){
 	}
 	
 	public void periodicStuff() {
-		myRobot.drive(ramp.get(), 0.35);
+		myRobot.drive(-0.4, 0.7);
 	}
 }

@@ -57,3 +57,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/10 Made a new autonomous program for the right gear position, isn't quite working yet.
 * 2/11 Refactored Auto2 and Auto3, tested Auto2 and works successfuly, tested Auto3 and it appears to use Forward and ForwardCurve, but nothing else.
 * 2/14 Refactored Auto2 and Auto3.  Auto3 should work but we forgot to test it.
+* 2/16 Spent the whole night testing Auto.  At the end of the night we got the bad RoboRio working!

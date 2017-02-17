@@ -16,7 +16,7 @@ public class Forward extends TimedAutoCommand{
 	}
 	
 	public void periodicStuff() {
-		ramp.set(.4);
+		ramp.set(-0.55);
 		myRobot.drive(ramp.get(), 0);
 	}
 }

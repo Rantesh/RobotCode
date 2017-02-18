@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
-//	private Encoder enc;
+    private Encoder enc;
 	private AnalogInput ultraSonic;
 	private TalonSRX flywheelTalon;
 	private AutoCommand[] commands;
@@ -29,25 +29,32 @@ public class Robot extends IterativeRobot {
 	SendableChooser autoChooser;
 	Preferences prefs;
 	
-	double driveMultiplier;
-	double armDownPosition;
+	double forward1;
+	double forward2;
+	double stop1;
+	double stop2;
+	double backStraight2;
+	double backStraight1;
+	double backCurve1;
+	double backCurve2;
+	double forwardCurve2;
 	
 	private AutoCommand[] getCommandsForAutonomous1() {
 		AutoCommand[] commands = new AutoCommand[4];
-		commands[0] = new Forward(myRobot, 1600);
-		commands[1] = new Stop(myRobot, 2000);
-		commands[2] = new BackCurve(myRobot, 2500);
-		commands[3] = new BackStraight(myRobot, 1500);
+		commands[0] = new Forward(myRobot,(int)forward1);
+		commands[1] = new Stop(myRobot, (int)stop1);
+		commands[2] = new BackCurve(myRobot, (int)backCurve1);
+		commands[3] = new BackStraight(myRobot, (int)backStraight1);
 		return commands;
 	}
 	
 	private AutoCommand[] getCommandsForAutonomous2() {
 		AutoCommand[] commands = new AutoCommand[5];
-		commands[0] = new Forward(myRobot, 1500);
-		commands[1] = new ForwardCurve3(myRobot, 1500);
-		commands[2] = new Stop(myRobot, 2000);
-		commands[3] = new BackCurve3(myRobot, 2000);
-		commands[4] = new BackStraight(myRobot, 1500);
+		commands[0] = new Forward(myRobot, (int)forward2);
+		commands[1] = new ForwardCurve3(myRobot, (int)forwardCurve2);
+		commands[2] = new Stop(myRobot, (int)stop2);
+		commands[3] = new BackCurve3(myRobot, (int)backCurve2);
+		commands[4] = new BackStraight(myRobot, (int)backStraight2);
 		return commands;
 	}
 	
@@ -63,22 +70,31 @@ public class Robot extends IterativeRobot {
 		teleop = new Teleop(myRobot, flywheelTalon);
 		ultraSonic = new AnalogInput(0);
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Auto Forward", 1);
-		autoChooser.addObject("Auto Right", 2);
+		autoChooser.addDefault("Auto Forward", 0);
+		autoChooser.addObject("Auto Right", 1);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
-//		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 	}
     
     /**
      * This function is run once each time the robot enters autonomous mode
      */
     public void autonomousInit() { 
-    	
-    	if ((int)autoChooser.getSelected() == 1) {
+		forward2 = prefs.getDouble("Forward 2", 1500);
+		forward1 = prefs.getDouble("Forward 1", 1600);
+		stop1 = prefs.getDouble("Stop 1", 2000);
+		stop2 = prefs.getDouble("Stop 2", 2000);
+		backCurve1 = prefs.getDouble("Back Curve 1", 2500);
+		backCurve2 = prefs.getDouble("Back Curve 2", 2000);
+		backStraight1 = prefs.getDouble("Back Straight 1", 1500);
+		backStraight2 = prefs.getDouble("Back Straight 2", 1500);
+		forwardCurve2 = prefs.getDouble("Forward Curve 2", 1500);
+		
+    	if ((int)autoChooser.getSelected() == 0) {
     		commands = getCommandsForAutonomous1();
     	}
-    	else if ((int)autoChooser.getSelected() == 2){
+    	else if ((int)autoChooser.getSelected() == 1){
     		commands = getCommandsForAutonomous2();
     	}
     }
@@ -101,12 +117,12 @@ public class Robot extends IterativeRobot {
      * This function is called once each time the robot enters tele-operated mode
      */
 	public void teleopInit(){
-/*    	enc.setMaxPeriod(.1);
+		enc.setMaxPeriod(.1);
     	enc.setMinRate(10);
     	enc.setDistancePerPulse(5);
     	enc.setReverseDirection(true);
     	enc.setSamplesToAverage(7);
-    	enc.reset();*/	
+    	enc.reset();	
     } 
 	
 	/**
@@ -114,17 +130,16 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		teleop.teleopPeriodic();
-		driveMultiplier = prefs.getDouble("Drive Multiplier", 1.0); //Validate this number!
-		armDownPosition = prefs.getDouble("abc", 4);
-		SmartDashboard.putNumber("ArmUpPosition", driveMultiplier);
-		SmartDashboard.putNumber("abc", armDownPosition);
-		/* int count = enc.get();
+		int count = enc.get();
 		double raw = enc.getRaw();
 		double distance = enc.getDistance();
 		double rate = enc.getRate();
 		boolean direction = enc.getDirection();
-		boolean stopped = enc.getStopped();*/
+		boolean stopped = enc.getStopped();
     	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
+    	SmartDashboard.putNumber("Encoder Distance", enc.getDistance());
+    	SmartDashboard.putBoolean("Encoder Direction", enc.getDirection());
+    	
 	}
     
     /**

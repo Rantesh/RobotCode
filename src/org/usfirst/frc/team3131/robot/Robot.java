@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3131.robot;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -21,8 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
-	private Encoder enc;
-	private AnalogInput ultraSonic;
+	private Encoder encLeft;
+	private Encoder encRight;
 	private TalonSRX flywheelTalon;
 	private AutoCommand[] commands;
 	Command autonomousCommand;
@@ -50,26 +49,26 @@ public class Robot extends IterativeRobot {
 	}
 	
 	private AutoCommand[] getCommandsForAutonomous1() {
-		AutoCommand[] commands = new AutoCommand[5];
-		commands[0] = new Forward(myRobot, (int)forward2);
-		commands[1] = new ForwardCurve3(myRobot, (int)forwardCurve2);
-		commands[2] = new Stop(myRobot, (int)stop2);
-		commands[3] = new BackCurve3(myRobot, (int)backCurve2);
-		commands[4] = new BackStraight(myRobot, (int)backStraight2);
-		return commands;
+		return new AutoCommand[] {
+				new Forward(myRobot, (int)forward2),
+				new ForwardCurve3(myRobot, (int)forwardCurve2),
+				new Stop(myRobot, (int)stop2),
+				new BackCurve3(myRobot, (int)backCurve2),
+				new BackStraight(myRobot, (int)backStraight2)
+		};
 	}
 	
 	private AutoCommand[] getCommandsForAutonomous2() {
-		AutoCommand[] commands = new AutoCommand[5];
-		commands[0] = new ForwardDistance(myRobot, enc, encDist);
+		AutoCommand[] commands = new AutoCommand[1];
+		commands[0] = new ForwardDistance(myRobot, encLeft, encRight, encDist);
 		return commands;
 	}
 	
 	private double getDistancePerPulse() {
-		int gear1 = 14;
-		int gear2 = 50;
-		int gear3 = 16;
-		int gear4 = 48;
+		double gear1 = 14;
+		double gear2 = 50;
+		double gear3 = 16;
+		double gear4 = 48;
 		double gearRatio = (gear1/gear2)*(gear3/gear4);
 		int pulsePerMotorRev = 20;
 		double radiusInInches = 3; 
@@ -85,15 +84,16 @@ public class Robot extends IterativeRobot {
 		myRobot = new RobotDrive(0,1);
 		flywheelTalon = new TalonSRX(2);
 		teleop = new Teleop(myRobot, flywheelTalon);
-		ultraSonic = new AnalogInput(0);
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Auto Forward", 0);
 		autoChooser.addObject("Auto Right", 1);
 		autoChooser.addObject("Auto Encoder", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
-		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		enc.setDistancePerPulse(getDistancePerPulse());
+		encLeft = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
+		encLeft.setDistancePerPulse(getDistancePerPulse());
+		encRight = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
+		encRight.setDistancePerPulse(getDistancePerPulse());
 	}
 	
 	/**
@@ -126,6 +126,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic(){
+		encoderData();
 		for(int i=0; i<commands.length; ++i) {
 			if (!commands[i].isFinished()) {
 				commands[i].periodic();
@@ -133,19 +134,13 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		myRobot.drive(0,0);
-    
-    	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
 	}
 	/**
      * This function is called once each time the robot enters tele-operated mode
      */
 	public void teleopInit(){
-		enc.setMaxPeriod(.1);
-    	enc.setMinRate(10);
-    	enc.setDistancePerPulse(5);
-    	enc.setReverseDirection(true);
-    	enc.setSamplesToAverage(7);
-    	enc.reset();	
+		encLeft.reset();
+ 		encRight.reset();
     } 
 	
 	/**
@@ -153,18 +148,15 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		teleop.teleopPeriodic();
-		int count = enc.get();
-		double raw = enc.getRaw();
-		double distance = enc.getDistance();
-		double rate = enc.getRate();
-		boolean direction = enc.getDirection();
-		boolean stopped = enc.getStopped();
-    	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
-    	SmartDashboard.putNumber("Encoder Distance", enc.getDistance());
-    	SmartDashboard.putBoolean("Encoder Direction", enc.getDirection());
-    	
+		encoderData();
 	}
     
+	private void encoderData() {
+    	SmartDashboard.putNumber("Left Encoder Distance", encLeft.getDistance());
+    	SmartDashboard.putNumber("Right Encoder Distance", encRight.getDistance());
+    	SmartDashboard.putBoolean("Left Encoder Direction", encLeft.getDirection());
+    	SmartDashboard.putBoolean("Right Encoder Direction", encRight.getDirection());
+	}
     /**
      * This function is called periodically during test mode
      */

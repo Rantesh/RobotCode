@@ -6,20 +6,24 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class ForwardDistance implements AutoCommand{
-	ForwardDistance(RobotDrive myRobot, Encoder enc, double distanceInInches) {
+	ForwardDistance(RobotDrive myRobot, Encoder encLeft, Encoder encRight, double distanceInInches) {
 		this.myRobot = myRobot;
-		this.enc = enc;
+		this.encLeft = encLeft;
+		this.encRight = encRight;
 		this.distance = distanceInInches;
 	}
 
 	RobotDrive myRobot;
-	Encoder enc;
+	Encoder encLeft;
+	Encoder encRight;
 	boolean isFinished;
 	boolean isInitialized;
 	double distance;
+	double curveCorrect;
 
 	private void init() {
-		enc.reset();
+		encLeft.reset();
+		encRight.reset();
 	}
 	
 	public void periodic() {
@@ -27,7 +31,13 @@ public class ForwardDistance implements AutoCommand{
 			init();
 			isInitialized = true;
 		}
-		myRobot.drive(-0.5,0);
+		if (encLeft.getDistance() > encRight.getDistance()){
+			curveCorrect = curveCorrect + .01;
+		}
+		else if (encRight.getDistance() < encLeft.getDistance()){
+			curveCorrect = curveCorrect - .01;
+		}
+		myRobot.drive(0.25,0);
 	}
 
 	public boolean isFinished() {
@@ -37,7 +47,7 @@ public class ForwardDistance implements AutoCommand{
 		if (isFinished) {
 			return true;
 		}
-		isFinished = (enc.getDistance() > distance);
+		isFinished = (encLeft.getDistance() > distance);
 		return isFinished;
 	}
 }

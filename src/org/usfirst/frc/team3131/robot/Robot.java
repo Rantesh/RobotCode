@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
-    private Encoder enc;
+	private Encoder enc;
 	private AnalogInput ultraSonic;
 	private TalonSRX flywheelTalon;
 	private AutoCommand[] commands;
@@ -38,8 +38,9 @@ public class Robot extends IterativeRobot {
 	double backCurve1;
 	double backCurve2;
 	double forwardCurve2;
+	double encDist;
 	
-	private AutoCommand[] getCommandsForAutonomous1() {
+	private AutoCommand[] getCommandsForAutonomous0() {
 		AutoCommand[] commands = new AutoCommand[4];
 		commands[0] = new Forward(myRobot,(int)forward1);
 		commands[1] = new Stop(myRobot, (int)stop1);
@@ -48,7 +49,7 @@ public class Robot extends IterativeRobot {
 		return commands;
 	}
 	
-	private AutoCommand[] getCommandsForAutonomous2() {
+	private AutoCommand[] getCommandsForAutonomous1() {
 		AutoCommand[] commands = new AutoCommand[5];
 		commands[0] = new Forward(myRobot, (int)forward2);
 		commands[1] = new ForwardCurve3(myRobot, (int)forwardCurve2);
@@ -58,7 +59,23 @@ public class Robot extends IterativeRobot {
 		return commands;
 	}
 	
+	private AutoCommand[] getCommandsForAutonomous2() {
+		AutoCommand[] commands = new AutoCommand[5];
+		commands[0] = new ForwardDistance(myRobot, enc, encDist);
+		return commands;
+	}
 	
+	private double getDistancePerPulse() {
+		int gear1 = 14;
+		int gear2 = 50;
+		int gear3 = 16;
+		int gear4 = 48;
+		double gearRatio = (gear1/gear2)*(gear3/gear4);
+		int pulsePerMotorRev = 20;
+		double radiusInInches = 3; 
+		double circumference = 2*Math.PI*radiusInInches;
+		return gearRatio * circumference / pulsePerMotorRev;
+	}
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -72,15 +89,17 @@ public class Robot extends IterativeRobot {
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Auto Forward", 0);
 		autoChooser.addObject("Auto Right", 1);
+		autoChooser.addObject("Auto Encoder", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
 		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+		enc.setDistancePerPulse(getDistancePerPulse());
 	}
-    
-    /**
-     * This function is run once each time the robot enters autonomous mode
-     */
-    public void autonomousInit() { 
+	
+	/**
+	 * This function is run once each time the robot enters autonomous mode
+	 */
+	public void autonomousInit() { 
 		forward2 = prefs.getDouble("Forward 2", 1500);
 		forward1 = prefs.getDouble("Forward 1", 1600);
 		stop1 = prefs.getDouble("Stop 1", 2000);
@@ -90,26 +109,30 @@ public class Robot extends IterativeRobot {
 		backStraight1 = prefs.getDouble("Back Straight 1", 1500);
 		backStraight2 = prefs.getDouble("Back Straight 2", 1500);
 		forwardCurve2 = prefs.getDouble("Forward Curve 2", 1500);
+		encDist = prefs.getDouble("Encoder Distance", 60);
 		
-    	if ((int)autoChooser.getSelected() == 0) {
-    		commands = getCommandsForAutonomous1();
-    	}
-    	else if ((int)autoChooser.getSelected() == 1){
-    		commands = getCommandsForAutonomous2();
-    	}
-    }
-    
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic(){
-    	for(int i=0; i<commands.length; ++i) {
-    		if (!commands[i].isFinished()) {
-    			commands[i].periodic();
-    			return;
-    		}
-    	}
-    	myRobot.drive(0,0);
+		if ((int)autoChooser.getSelected() == 0) {
+			commands = getCommandsForAutonomous0();
+		}
+		else if ((int)autoChooser.getSelected() == 1) {
+			commands = getCommandsForAutonomous1();
+		}
+		else if ((int)autoChooser.getSelected() == 2) {
+			commands = getCommandsForAutonomous2();
+		}
+	}
+	
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic(){
+		for(int i=0; i<commands.length; ++i) {
+			if (!commands[i].isFinished()) {
+				commands[i].periodic();
+				return;
+			}
+		}
+		myRobot.drive(0,0);
     
     	SmartDashboard.putNumber("Ultrasonic",ultraSonic.getVoltage());
 	}

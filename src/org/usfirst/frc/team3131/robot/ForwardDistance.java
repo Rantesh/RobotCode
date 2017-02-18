@@ -37,7 +37,12 @@ public class ForwardDistance implements AutoCommand{
 		else if (encRight.getDistance() < encLeft.getDistance()){
 			curveCorrect = curveCorrect - .01;
 		}
-		myRobot.drive(0.25,0);
+		if (0 > distance) {
+			myRobot.drive(0.25,0);
+		}
+		else {
+			myRobot.drive(-0.25,0);
+		}
 	}
 
 	public boolean isFinished() {
@@ -47,7 +52,12 @@ public class ForwardDistance implements AutoCommand{
 		if (isFinished) {
 			return true;
 		}
-		isFinished = (encLeft.getDistance() > distance);
+		if (0 > distance) {
+			isFinished = (encLeft.getDistance() > distance);
+		}
+		else {
+			isFinished = (encLeft.getDistance() < distance);
+		}
 		return isFinished;
 	}
 }

@@ -90,9 +90,9 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Auto Encoder", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
-		encLeft = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
+		encLeft = new Encoder(4, 5, false, Encoder.EncodingType.k2X);
 		encLeft.setDistancePerPulse(getDistancePerPulse());
-		encRight = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
+		encRight = new Encoder(0, 1, true, Encoder.EncodingType.k2X);  // ports 2 and 3 weren't working
 		encRight.setDistancePerPulse(getDistancePerPulse());
 	}
 	

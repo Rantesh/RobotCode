@@ -59,3 +59,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/14 Refactored Auto2 and Auto3.  Auto3 should work but we forgot to test it.
 * 2/16 Spent the whole night testing Auto.  At the end of the night we got the bad RoboRio working!
 * 2/17 Setup encoder for testing, put all of our timed autonomous variables into SmartDashboard, still need to test this.
+* 2/18 Whichever encoder we put in ports 0 and 1 works; the other will not work.  We may have fixed this error by using k2X instead of k4X, but couldn't test.  Setup but have not tested ForwardDistance for use going backwards.

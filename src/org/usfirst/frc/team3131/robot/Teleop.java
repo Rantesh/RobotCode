@@ -21,8 +21,8 @@ public class Teleop {
 	private Preferences prefs = Preferences.getInstance();
 	private double preferenceStuff;
 	private Ramp climberRamp = new Ramp(1, 0);
-	private DigitalOutput blue = new DigitalOutput(5);
-	private DigitalOutput red = new DigitalOutput(6);
+//	private DigitalOutput blue = new DigitalOutput(5);
+//	private DigitalOutput red = new DigitalOutput(6);
 
 	private static double deadband (double joystick, int power) {
 		if (joystick < 0 && power % 2 == 0) {
@@ -64,8 +64,8 @@ public class Teleop {
 		myRobot.arcadeDrive(-deadband(stick.getRawAxis(1), 5)*.7, deadband(-stick.getRawAxis(4), 5)*.7);
 		climbButton();
 		flyWheelRev();
-		blue.set(stick.getRawButton(2));
-		red.set(stick.getRawButton(3));
+//		blue.set(stick.getRawButton(2));
+//		red.set(stick.getRawButton(3));
 		SmartDashboard.putBoolean("Red", stick.getRawButton(3));
 		SmartDashboard.putBoolean("Blue", stick.getRawButton(2));
 	}

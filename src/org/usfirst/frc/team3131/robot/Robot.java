@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		myRobot = new RobotDrive(0,1);
-		flywheelTalon = new TalonSRX(2);
+		flywheelTalon = new TalonSRX(5);
 		teleop = new Teleop(myRobot, flywheelTalon);
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Auto Forward", 0);

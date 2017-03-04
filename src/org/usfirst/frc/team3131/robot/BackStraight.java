@@ -9,7 +9,7 @@ public class BackStraight extends TimedAutoCommand {
 	}
 	
 	RobotDrive myRobot;
-	private Ramp ramp = new Ramp(.4, 0.6);
+	private Ramp ramp = new Ramp(.4, 0.6, 0.01);
 	
 	public void init(){
 	}

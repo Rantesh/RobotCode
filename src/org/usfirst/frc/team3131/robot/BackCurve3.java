@@ -9,7 +9,7 @@ public class BackCurve3 extends TimedAutoCommand{
 	}
 	
 	RobotDrive myRobot;
-	private Ramp ramp = new Ramp(1, 0);
+	private Ramp ramp = new Ramp(1, 0, 0.01);
 	
 	public void init(){
 		ramp.reset();

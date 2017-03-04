@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3131.robot;
 
-import java.util.Date;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 

@@ -61,3 +61,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/17 Setup encoder for testing, put all of our timed autonomous variables into SmartDashboard, still need to test this.
 * 2/18 Whichever encoder we put in ports 0 and 1 works; the other will not work.  We may have fixed this error by using k2X instead of k4X, but couldn't test.  Setup but have not tested ForwardDistance for use going backwards.
 * 2/20 Got the shooter working.  Implemented a servo to accomplish this.
+* 3/4 Have been working on getting Synthesis to work - we seem to be making progress, but it has not succeded at all yet.

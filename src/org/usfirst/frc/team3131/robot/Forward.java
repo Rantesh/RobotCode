@@ -9,7 +9,7 @@ public class Forward extends TimedAutoCommand{
 	}
 	
 	RobotDrive myRobot; 
-	private Ramp ramp = new Ramp(0, 0);
+	private Ramp ramp = new Ramp(0, 0, 0.01);
 	
 	void init() {
 		ramp.reset();

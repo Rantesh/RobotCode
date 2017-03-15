@@ -34,6 +34,14 @@ Update this readme.md file daily with a brief status update so other students co
 * Get debugging working!
 * *ADD IDEAS TO THIS LIST WHEN YOU THINK OF THEM*
 
+##Port mapping:
+* PWM
+   * Robot drive is on ports 1 and 2
+   * The climb talons are on port 3 and 4
+   * The shooter wall servo is on port 5
+   * The flywheel is on port 6
+   * The (currently unused) agitator servo is on port 7
+
 ## TEST TEST TEST
 
 Get the software on the robot as early and often as possible! This will allow us to prove out and continuously improve our code as we go. It will also help mechanical and electrical to discover problems within their areas sooner. And its fun.
@@ -62,3 +70,4 @@ Get the software on the robot as early and often as possible! This will allow us
 * 2/18 Whichever encoder we put in ports 0 and 1 works; the other will not work.  We may have fixed this error by using k2X instead of k4X, but couldn't test.  Setup but have not tested ForwardDistance for use going backwards.
 * 2/20 Got the shooter working.  Implemented a servo to accomplish this.
 * 3/4 Have been working on getting Synthesis to work - we seem to be making progress, but it has not succeded at all yet.
+* 3/14 Testing Encoders.  Right Encoder is working.  Code is still in test mode with DigitalInputs instead of Encoder objects.

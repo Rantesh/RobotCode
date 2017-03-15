@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3131.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 //import com.autodesk.bxd.EmulatorControl;
 //import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -33,6 +34,11 @@ public class Robot extends IterativeRobot {
 	//private Command autonomousCommand;
 	private SendableChooser autoChooser;
 	private Preferences prefs;
+	private DigitalInput enc11 = new DigitalInput(0);
+	private DigitalInput enc12 = new DigitalInput(1);
+	private DigitalInput enc21 = new DigitalInput(3);
+	private DigitalInput enc22 = new DigitalInput(4);
+	
 	
 	private double forward1;
 	private double forward2;
@@ -107,10 +113,11 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Auto Encoder", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 		prefs = Preferences.getInstance();
-		encLeft = new Encoder(3, 4, false, Encoder.EncodingType.k4X);
+/*		encLeft = new Encoder(3, 4, false, Encoder.EncodingType.k4X);
 		encLeft.setDistancePerPulse(getDistancePerPulse());
-		encRight = new Encoder(1, 2, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
+		encRight = new Encoder(0, 1, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
 		encRight.setDistancePerPulse(getDistancePerPulse());
+*/		
 	}
 
 	public void autonomousInit() { 
@@ -125,9 +132,9 @@ public class Robot extends IterativeRobot {
 		forwardCurve2 = prefs.getDouble("Forward Curve 2", 1500);
 		encDist = prefs.getDouble("Encoder Distance", 60);
 		
-		encLeft.reset();
+/*		encLeft.reset();
  		encRight.reset();
-		
+*/		
 		if ((int)autoChooser.getSelected() == 0) {
 			commands = getCommandsForAutonomous0();
 		}
@@ -140,7 +147,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic(){
-		encoderData();
+//		encoderData();
 		for(int i=0; i<commands.length; ++i) {
 			if (!commands[i].isFinished()) {
 				commands[i].periodic();
@@ -151,13 +158,17 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit(){
-		encLeft.reset();
+/*		encLeft.reset();
  		encRight.reset();
-    } 
+*/    } 
 	
 	public void teleopPeriodic() {
 		teleop.teleopPeriodic();
-		encoderData();
+		SmartDashboard.putBoolean("Encoder 1 Signal 1",enc11.get());
+		SmartDashboard.putBoolean("Encoder 1 Signal 2",enc12.get());
+		SmartDashboard.putBoolean("Encoder 2 Signal 1",enc21.get());
+		SmartDashboard.putBoolean("Encoder 2 Signal 2",enc22.get());
+//		encoderData();
 	}
     
     public void testPeriodic() {

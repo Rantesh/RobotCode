@@ -27,6 +27,7 @@ public class Teleop {
 	private TalonSRX climbTalon = new TalonSRX(3);
 	private TalonSRX climbTalon2 = new TalonSRX(4);
 	private SendableChooser shooterChooser = new SendableChooser();
+	private Servo alligator = new Servo(7);
 
 //	private DigitalOutput blue = new DigitalOutput(5);
 //	private DigitalOutput red = new DigitalOutput(6);
@@ -52,20 +53,12 @@ public class Teleop {
 
 	private void secondShooter() {
 		if (stick.getRawButton(6)) {
-			flywheelTalon.set(flywheelRamp.get());
+			flywheelTalon.set(1);
+			servant.setAngle(0);
 		}
 		else {
-			shooterStart = new Date();
-			flywheelRamp.reset();
 			flywheelTalon.set(0);
-		}
-
-		Date currentTime = new Date();
-		if (currentTime.getTime() >= shooterStart.getTime() + 500) {
-			servant.setAngle(0);	// Lift gate to release balls
-		}
-		else {
-			servant.setAngle(90);	// Lower ball gate
+			servant.setAngle(90);
 		}
 	}
 
@@ -78,18 +71,26 @@ public class Teleop {
 		}
 	}
 
-	private void climbButton(){
+	private void climbButton() {
 		double climbPower = -deadband(stick.getRawAxis(3),2);
 		climbTalon.set(climbPower);
-		climbTalon2.set(climbPower);
+		climbTalon2.set(-climbPower);
 	}
 
+	private void ballAgitator() {
+		if(stick.getRawButton(5)) {
+			alligator.set(0);
+		}
+		else {
+			alligator.set(1);
+		}
+	}
+	
 	public void teleopPeriodic() {
-		myRobot.arcadeDrive(-deadband(stick.getRawAxis(1), 5)*.7, deadband(-stick.getRawAxis(4), 5)*.7);
+		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5)*.7, deadband(stick.getRawAxis(4), 5)*.7);
 		climbButton();
-		flyWheelRev();
-		shooterWall();
 		secondShooter();
+		ballAgitator();
 //		blue.set(stick.getRawButton(2));
 //		red.set(stick.getRawButton(3));
 		SmartDashboard.putBoolean("Red", stick.getRawButton(3));

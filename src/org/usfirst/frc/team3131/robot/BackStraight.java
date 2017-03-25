@@ -15,6 +15,6 @@ public class BackStraight extends TimedAutoCommand {
 	}
 
 	public void periodicStuff() {
-		myRobot.drive(ramp.get(), 0);
+		myRobot.drive(-ramp.get(), 0);
 	}
 }

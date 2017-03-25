@@ -14,6 +14,6 @@ public class ForwardCurve3 extends TimedAutoCommand {
 	}
 	
 	public void periodicStuff() {
-		myRobot.drive(-0.4, 0.7);
+		myRobot.drive(0.4, 0.7);
 	}
 }

@@ -16,6 +16,6 @@ public class BackCurve extends TimedAutoCommand {
 	}
 	
 	public void periodicStuff() {
-		myRobot.drive(ramp.get(), 0.55);
+		myRobot.drive(-ramp.get(), 0.55);
 	}
 }

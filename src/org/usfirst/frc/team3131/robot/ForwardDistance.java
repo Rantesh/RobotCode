@@ -36,10 +36,10 @@ public class ForwardDistance implements AutoCommand{
 			curveCorrect = curveCorrect - .01;
 		}
 		if (0 > distance) {
-			myRobot.drive(0.25,0);
+			myRobot.drive(-0.25,0);
 		}
 		else {
-			myRobot.drive(-0.25,0);
+			myRobot.drive(0.25,0);
 		}
 	}
 

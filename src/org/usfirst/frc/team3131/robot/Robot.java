@@ -34,11 +34,12 @@ public class Robot extends IterativeRobot {
 	//private Command autonomousCommand;
 	private SendableChooser autoChooser;
 	private Preferences prefs;
-	private DigitalInput enc11 = new DigitalInput(0);
+	private SendableChooser encoderChooser;
+/*	private DigitalInput enc11 = new DigitalInput(0);
 	private DigitalInput enc12 = new DigitalInput(1);
 	private DigitalInput enc21 = new DigitalInput(3);
 	private DigitalInput enc22 = new DigitalInput(4);
-	
+*/	
 	
 	private double forward1;
 	private double forward2;
@@ -76,7 +77,22 @@ public class Robot extends IterativeRobot {
 	
 	private AutoCommand[] getCommandsForAutonomous2() {
 		return new AutoCommand[] {
-				new ForwardDistance(myRobot, encLeft, encRight, encDist)
+				new ForwardDistance(myRobot, encLeft, encRight, encDist),
+				new Stop(myRobot, (int)stop1),
+				new BackCurve(myRobot, (int)backCurve1),
+				new BackStraight(myRobot, (int)backStraight1)
+		};
+	}
+	
+	private AutoCommand[] getCommandsForAutonomous3() {
+		return new AutoCommand[] {
+				new Stop(myRobot, (int)stop1),
+		};
+	}
+	
+	private AutoCommand[] getCommandsForAutonomous4() {
+		return new AutoCommand[] {
+				new Forward(myRobot, 4000),
 		};
 	}
 	
@@ -111,13 +127,24 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("Auto Forward", 0);
 		autoChooser.addObject("Auto Right", 1);
 		autoChooser.addObject("Auto Encoder", 2);
+		autoChooser.addObject("Auto Stop", 3);
+		autoChooser.addObject("Auto Straight Forward", 4);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
+		encoderChooser = new SendableChooser();
+		encoderChooser.addDefault("Competition", 0);
+		encoderChooser.addObject("Test", 1);
+		SmartDashboard.putData("Encoder Chooser", encoderChooser);
 		prefs = Preferences.getInstance();
-/*		encLeft = new Encoder(3, 4, false, Encoder.EncodingType.k4X);
-		encLeft.setDistancePerPulse(getDistancePerPulse());
-		encRight = new Encoder(0, 1, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
-		encRight.setDistancePerPulse(getDistancePerPulse());
-*/		
+		
+		if ((int)encoderChooser.getSelected() == 0) {
+			encLeft = new Encoder(5, 6, false, Encoder.EncodingType.k4X);
+			encLeft.setDistancePerPulse(getDistancePerPulse());
+			encRight = new Encoder(0, 1, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
+			encRight.setDistancePerPulse(getDistancePerPulse());
+		}
+		else if ((int)encoderChooser.getSelected() == 1) {
+		}
+		
 	}
 
 	public void autonomousInit() { 
@@ -132,9 +159,9 @@ public class Robot extends IterativeRobot {
 		forwardCurve2 = prefs.getDouble("Forward Curve 2", 1500);
 		encDist = prefs.getDouble("Encoder Distance", 60);
 		
-/*		encLeft.reset();
+		encLeft.reset();
  		encRight.reset();
-*/		
+		
 		if ((int)autoChooser.getSelected() == 0) {
 			commands = getCommandsForAutonomous0();
 		}
@@ -144,10 +171,16 @@ public class Robot extends IterativeRobot {
 		else if ((int)autoChooser.getSelected() == 2) {
 			commands = getCommandsForAutonomous2();
 		}
+		else if ((int)autoChooser.getSelected() == 3) {
+			commands = getCommandsForAutonomous3();
+		}
+		else if ((int)autoChooser.getSelected() == 4) {
+			commands = getCommandsForAutonomous4();
+		}
 	}
 
 	public void autonomousPeriodic(){
-//		encoderData();
+		encoderData();
 		for(int i=0; i<commands.length; ++i) {
 			if (!commands[i].isFinished()) {
 				commands[i].periodic();
@@ -158,17 +191,17 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit(){
-/*		encLeft.reset();
+		encLeft.reset();
  		encRight.reset();
-*/    } 
+    } 
 	
 	public void teleopPeriodic() {
 		teleop.teleopPeriodic();
-		SmartDashboard.putBoolean("Encoder 1 Signal 1",enc11.get());
+/*		SmartDashboard.putBoolean("Encoder 1 Signal 1",enc11.get());
 		SmartDashboard.putBoolean("Encoder 1 Signal 2",enc12.get());
 		SmartDashboard.putBoolean("Encoder 2 Signal 1",enc21.get());
 		SmartDashboard.putBoolean("Encoder 2 Signal 2",enc22.get());
-//		encoderData();
+*/		encoderData();
 	}
     
     public void testPeriodic() {

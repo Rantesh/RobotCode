@@ -62,6 +62,15 @@ public class Teleop {
 		}
 	}
 
+	private void thirdShooter() {
+		if (stick.getRawButton(5)) {
+			servant.setAngle(0);
+		}
+		else {
+			servant.setAngle(90);
+		}
+	}
+
 	private static double deadband (double joystick, int power) {
 		if (joystick < 0 && power % 2 == 0) {
 			return -Math.pow(joystick, power);
@@ -74,7 +83,7 @@ public class Teleop {
 	private void climbButton() {
 		double climbPower = -deadband(stick.getRawAxis(3),2);
 		climbTalon.set(climbPower);
-		climbTalon2.set(-climbPower);
+		climbTalon2.set(climbPower);
 	}
 
 	private void ballAgitator() {
@@ -87,9 +96,10 @@ public class Teleop {
 	}
 	
 	public void teleopPeriodic() {
-		myRobot.arcadeDrive(deadband(stick.getRawAxis(1), 5)*.7, deadband(stick.getRawAxis(4), 5)*.7);
+		myRobot.arcadeDrive(-deadband(stick.getRawAxis(1), 5), -deadband(stick.getRawAxis(4), 5));
 		climbButton();
 		secondShooter();
+		thirdShooter();
 		ballAgitator();
 //		blue.set(stick.getRawButton(2));
 //		red.set(stick.getRawButton(3));

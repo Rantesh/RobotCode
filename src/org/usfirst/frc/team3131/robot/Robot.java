@@ -152,7 +152,7 @@ public class Robot extends IterativeRobot {
 		forward1 = prefs.getDouble("Forward 1", 1600);
 		stop1 = prefs.getDouble("Stop 1", 2000);
 		stop2 = prefs.getDouble("Stop 2", 2000);
-		backCurve1 = prefs.getDouble("Back Curve 1", 2500);
+		backCurve1 = prefs.getDouble("Back Curve 1", 3500);
 		backCurve2 = prefs.getDouble("Back Curve 2", 2000);
 		backStraight1 = prefs.getDouble("Back Straight 1", 1500);
 		backStraight2 = prefs.getDouble("Back Straight 2", 1500);

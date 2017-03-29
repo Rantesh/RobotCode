@@ -28,6 +28,9 @@ public class Teleop {
 	private TalonSRX climbTalon2 = new TalonSRX(4);
 	private SendableChooser shooterChooser = new SendableChooser();
 	private Servo alligator = new Servo(7);
+	private double highSpeed = 1;
+	private double lowSpeed = 0.7;
+	private boolean useHighSpeed = true;
 
 //	private DigitalOutput blue = new DigitalOutput(5);
 //	private DigitalOutput red = new DigitalOutput(6);
@@ -94,9 +97,24 @@ public class Teleop {
 			alligator.set(1);
 		}
 	}
+
+	private void speedDrive() {
+		if (useHighSpeed) {
+			myRobot.arcadeDrive(-highSpeed * deadband(stick.getRawAxis(1), 2), -highSpeed * deadband(stick.getRawAxis(4), 2));
+			if (stick.getRawButton(4)) {
+				useHighSpeed = false;
+			}
+		}
+		else {
+			myRobot.arcadeDrive(-lowSpeed * deadband(stick.getRawAxis(1), 2), -lowSpeed * deadband(stick.getRawAxis(4), 2));
+			if (stick.getRawButton(3)) {
+				useHighSpeed = true;
+			}
+		}
+	}
 	
 	public void teleopPeriodic() {
-		myRobot.arcadeDrive(-deadband(stick.getRawAxis(1), 5), -deadband(stick.getRawAxis(4), 5));
+		speedDrive();
 		climbButton();
 		secondShooter();
 		thirdShooter();

@@ -4,15 +4,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class ForwardDistance implements AutoCommand{
-	ForwardDistance(RobotDrive myRobot, Encoder encLeft, Encoder encRight, double distanceInInches) {
+	ForwardDistance(RobotDrive myRobot, Encoder encRight, double distanceInInches) {
 		this.myRobot = myRobot;
-		this.encLeft = encLeft;
 		this.encRight = encRight;
 		this.distance = distanceInInches;
 	}
 
 	RobotDrive myRobot;
-	Encoder encLeft;
 	Encoder encRight;
 	boolean isFinished;
 	boolean isInitialized;
@@ -20,7 +18,6 @@ public class ForwardDistance implements AutoCommand{
 	double curveCorrect;
 
 	private void init() {
-		encLeft.reset();
 		encRight.reset();
 	}
 	
@@ -29,12 +26,7 @@ public class ForwardDistance implements AutoCommand{
 			init();
 			isInitialized = true;
 		}
-		if (encLeft.getDistance() > encRight.getDistance()){
-			curveCorrect = curveCorrect + .01;
-		}
-		else if (encRight.getDistance() < encLeft.getDistance()){
-			curveCorrect = curveCorrect - .01;
-		}
+
 		if (0 > distance) {
 			myRobot.drive(-0.25,0);
 		}
@@ -51,10 +43,10 @@ public class ForwardDistance implements AutoCommand{
 			return true;
 		}
 		if (0 > distance) {
-			isFinished = (encLeft.getDistance() > distance);
+			isFinished = (encRight.getDistance() < distance);
 		}
 		else {
-			isFinished = (encLeft.getDistance() < distance);
+			isFinished = (encRight.getDistance() > distance);
 		}
 		return isFinished;
 	}

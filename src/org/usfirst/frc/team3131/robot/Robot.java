@@ -27,75 +27,42 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
-	private Encoder encLeft;
 	private Encoder encRight;
 	private TalonSRX flywheelTalon;
 	private AutoCommand[] commands;
 	//private Command autonomousCommand;
-	private SendableChooser autoChooser;
+	private SendableChooser<Integer> autoChooser;
 	private Preferences prefs;
-	private SendableChooser encoderChooser;
+	private SendableChooser<Integer> encoderChooser;
 /*	private DigitalInput enc11 = new DigitalInput(0);
 	private DigitalInput enc12 = new DigitalInput(1);
 	private DigitalInput enc21 = new DigitalInput(3);
 	private DigitalInput enc22 = new DigitalInput(4);
 */	
 	
-	private double forward1;
-	private double forward2;
-	private double stop1;
-	private double stop2;
-	private double backStraight2;
-	private double backStraight1;
-	private double backCurve1;
-	private double backCurve2;
-	private double forwardCurve2;
-	private double encDist;
+	private double forwardTimeMS;
+	private double encoderDistanceInches;
 	
 /*	public static void main(String[] args){
 		EmulatorControl.start(3131,Robot.class);
 	}*/
 	
-	private AutoCommand[] getCommandsForAutonomous0() {
+	private AutoCommand[] getCommandsForAutoForward() {
 		return new AutoCommand[] {
-				new Forward(myRobot,(int)forward1),
-				new Stop(myRobot, (int)stop1),
-				new BackCurve(myRobot, (int)backCurve1),
-				new BackStraight(myRobot, (int)backStraight1)
+				new Forward(myRobot,(int)forwardTimeMS),
 		};
 	}
 	
-	private AutoCommand[] getCommandsForAutonomous1() {
+	private AutoCommand[] getCommandsForAutoEncoder() {
 		return new AutoCommand[] {
-				new Forward(myRobot, (int)forward2),
-				new ForwardCurve3(myRobot, (int)forwardCurve2),
-				new Stop(myRobot, (int)stop2),
-				new BackCurve3(myRobot, (int)backCurve2),
-				new BackStraight(myRobot, (int)backStraight2)
+				new ForwardDistance(myRobot, encRight, encoderDistanceInches)
 		};
 	}
 	
-	private AutoCommand[] getCommandsForAutonomous2() {
-		return new AutoCommand[] {
-				new ForwardDistance(myRobot, encLeft, encRight, encDist),
-				new Stop(myRobot, (int)stop1),
-				new BackCurve(myRobot, (int)backCurve1),
-				new BackStraight(myRobot, (int)backStraight1)
-		};
+	private AutoCommand[] getCommandsForAutoStop() {
+		return new AutoCommand[] {};
 	}
-	
-	private AutoCommand[] getCommandsForAutonomous3() {
-		return new AutoCommand[] {
-				new Stop(myRobot, (int)stop1),
-		};
-	}
-	
-	private AutoCommand[] getCommandsForAutonomous4() {
-		return new AutoCommand[] {
-				new Forward(myRobot, 4000),
-		};
-	}
-	
+		
 	private double getDistancePerPulse() {
 		double gear1 = 14;
 		double gear2 = 50;
@@ -109,9 +76,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	private void encoderData() {
-    	SmartDashboard.putNumber("Left Encoder Distance", encLeft.getDistance());
     	SmartDashboard.putNumber("Right Encoder Distance", encRight.getDistance());
-    	SmartDashboard.putBoolean("Left Encoder Direction", encLeft.getDirection());
     	SmartDashboard.putBoolean("Right Encoder Direction", encRight.getDirection());
 	}
 
@@ -123,62 +88,47 @@ public class Robot extends IterativeRobot {
 		myRobot = new RobotDrive(1,2);
 		flywheelTalon = new TalonSRX(6);
 		teleop = new Teleop(myRobot, flywheelTalon);
-		autoChooser = new SendableChooser();
+		autoChooser = new SendableChooser<Integer>();
 		autoChooser.addDefault("Auto Forward", 0);
-		autoChooser.addObject("Auto Right", 1);
-		autoChooser.addObject("Auto Encoder", 2);
-		autoChooser.addObject("Auto Stop", 3);
-		autoChooser.addObject("Auto Straight Forward", 4);
+		autoChooser.addObject("Auto Encoder", 1);
+		autoChooser.addObject("Auto Stop", 2);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
-		encoderChooser = new SendableChooser();
+		encoderChooser = new SendableChooser<Integer>();
 		encoderChooser.addDefault("Competition", 0);
 		encoderChooser.addObject("Test", 1);
 		SmartDashboard.putData("Encoder Chooser", encoderChooser);
 		prefs = Preferences.getInstance();
-		
-		if ((int)encoderChooser.getSelected() == 0) {
-			encLeft = new Encoder(5, 6, false, Encoder.EncodingType.k4X);
-			encLeft.setDistancePerPulse(getDistancePerPulse());
-			encRight = new Encoder(0, 1, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
-			encRight.setDistancePerPulse(getDistancePerPulse());
+		encRight = new Encoder(0, 1, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
+		encRight.setDistancePerPulse(getDistancePerPulse());
+
+		if (encoderChooser.getSelected() == 0) {
+			// Use Encoder Objects
 		}
-		else if ((int)encoderChooser.getSelected() == 1) {
+		else if (encoderChooser.getSelected() == 1) {
+			// Use DIO Objects for testing purposes
 		}
-		
 	}
 
 	public void autonomousInit() { 
-		forward2 = prefs.getDouble("Forward 2", 1500);
-		forward1 = prefs.getDouble("Forward 1", 1600);
-		stop1 = prefs.getDouble("Stop 1", 2000);
-		stop2 = prefs.getDouble("Stop 2", 2000);
-		backCurve1 = prefs.getDouble("Back Curve 1", 3500);
-		backCurve2 = prefs.getDouble("Back Curve 2", 2000);
-		backStraight1 = prefs.getDouble("Back Straight 1", 1500);
-		backStraight2 = prefs.getDouble("Back Straight 2", 1500);
-		forwardCurve2 = prefs.getDouble("Forward Curve 2", 1500);
-		encDist = prefs.getDouble("Encoder Distance", 60);
+		forwardTimeMS = prefs.getDouble("Forward Time in Milliseconds", 4000);
+		encoderDistanceInches = prefs.getDouble("Encoder Distance in Inches", 60);
 		
-		encLeft.reset();
  		encRight.reset();
-		
-		if ((int)autoChooser.getSelected() == 0) {
-			commands = getCommandsForAutonomous0();
-		}
-		else if ((int)autoChooser.getSelected() == 1) {
-			commands = getCommandsForAutonomous1();
-		}
-		else if ((int)autoChooser.getSelected() == 2) {
-			commands = getCommandsForAutonomous2();
-		}
-		else if ((int)autoChooser.getSelected() == 3) {
-			commands = getCommandsForAutonomous3();
-		}
-		else if ((int)autoChooser.getSelected() == 4) {
-			commands = getCommandsForAutonomous4();
-		}
+		commands = getAutoCommands();
 	}
 
+	private AutoCommand[] getAutoCommands() {
+ 		switch (autoChooser.getSelected()) {
+ 		case 0:
+			return getCommandsForAutoForward();
+ 		case 1:
+			return getCommandsForAutoEncoder();
+ 		case 2:
+ 		default:
+			return getCommandsForAutoStop();
+ 		}
+	}
+	
 	public void autonomousPeriodic(){
 		encoderData();
 		for(int i=0; i<commands.length; ++i) {
@@ -191,7 +141,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit(){
-		encLeft.reset();
  		encRight.reset();
     } 
 	

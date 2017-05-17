@@ -19,32 +19,33 @@ Commit and push your changes to Github before leaving for the day. This will mak
 
 Update this readme.md file daily with a brief status update so other students coming in the following day know where the project is at.
 
+## Procedures
+* Updates (Every 2 weeks after kickoff)
+** Eclipse
+** FRC Update Suite
+** RoboRio Firmware
+** Reimage the RoboRio (And redownload the JRE!)
+* For GitHub
+** If we use multiple computers, sync before you start programming.
+** Commit to master after successful tests.
+** Update the readme and commit to master at the end of the day.
+* For Programming Room
+** Cleanup for 10 minutes at the end of the day.
+** Plug in laptops at the end of the day you need to charge.
+
+## Projects
+* T-shirt Cannon Code
+* Create Mini Java Class: https://docs.google.com/document/d/1jQJItqsL7pO1Lro8Maw-NK7DqzCzYnVX13RtjORtHAw/edit?usp=sharing
+* Find some way to drive the robot without the laptop
 
 ## To Do:
-* Autonomous
-   * what should the robot do?
-      * deposit a gear?
-      * drive across the baseline?
-      * shoot balls in upper goal?
-      * deposit balls in lower goal?
-   * where should it start and what path should it take?
-   * how accurate and consistent is the robot in following the coded path? Do we need any sensors? 
-   * understand the geometry of the robot and which axis it turns around
-* allow operator to switch between tank and arcide drive by pressing a button on the controller
-* Get debugging working!
 * *ADD IDEAS TO THIS LIST WHEN YOU THINK OF THEM*
 
-##Port mapping:
-* PWM
-   * Robot drive is on ports 1 and 2
-   * The climb talons are on port 3 and 4
-   * The shooter wall servo is on port 5
-   * The flywheel is on port 6
-   * The (currently unused) agitator servo is on port 7
 
 ## TEST TEST TEST
 
 Get the software on the robot as early and often as possible! This will allow us to prove out and continuously improve our code as we go. It will also help mechanical and electrical to discover problems within their areas sooner. And its fun.
+
 
 ## Daily Status Updates
 * 1/13 Ryan split out robot.java into 3 separate files and published the project to Github

@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		myRobot = new RobotDrive(1,2);
+		myRobot = new RobotDrive(2,1);
 		flywheelTalon = new TalonSRX(6);
 		teleop = new Teleop(myRobot, flywheelTalon);
 		autoChooser = new SendableChooser<Integer>();

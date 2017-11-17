@@ -47,28 +47,6 @@ Update this readme.md file daily with a brief status update so other students co
 Get the software on the robot as early and often as possible! This will allow us to prove out and continuously improve our code as we go. It will also help mechanical and electrical to discover problems within their areas sooner. And its fun.
 
 
-## Daily Status Updates
-* 1/13 Ryan split out robot.java into 3 separate files and published the project to Github
-* 1/14 Set up Autonomous for testing, including SmartDashboard in Autonomous.  Judah has GitHub account and permissions now.
-* 1/18 Tested autonomous a ton.  Got to go straight for seven feet.  Gage, Josh, Frankie, and Hunter have GitHub with permissions.
-* 1/20 We made the Ramp class and implemented it into teleop and autonomous drive. Minor adjustments to methods in teleop.
-* 1/21 Got the ultraSonic sensor working.  Tested it in autonomous.
-* 1/24 Worked on SmartDashboard; got the autoSwitch working.  Helped mechanical test climbing.  Created an interface for multiple autonomous programs.  Started working on editing robot preferences from the SmartDashboard.  
-* 1/28 Changed deadband program to use a parabolic power rate.  Tested it.  It works.
-* 1/31 Updated autonomous code's runAutoStep to include the distance sensor. 
-* 2/1 Autonomous - got our first autonomous working (must test for precision, still). Could not test the distance sensor code for it, though.
-* 2/2 Set up climbTalon to work with a Ramp.  Started planning for a complete change in how Autonomous runs (command based).
-* 2/3 Created commands for Autonomous2
-* 2/4 Major rewrite of Autonomous2 and its commands, started working on preferences, and did some teleop testing.
-* 2/7 Created and began implementing the interface AutoCommand.  Fixed bugs in AutonomousDriver2 that prevented it from running.
-* 2/8 Got a ton of errors for ForwardUntilWall and apparently fixed them.
-* 2/9 AUTODRIVER2 WORKS!!!!  65 POINTS IN THE BAG! The ultraSonic sensor appears to be broke, so we are making due without..
-* 2/10 Made a new autonomous program for the right gear position, isn't quite working yet.
-* 2/11 Refactored Auto2 and Auto3, tested Auto2 and works successfuly, tested Auto3 and it appears to use Forward and ForwardCurve, but nothing else.
-* 2/14 Refactored Auto2 and Auto3.  Auto3 should work but we forgot to test it.
-* 2/16 Spent the whole night testing Auto.  At the end of the night we got the bad RoboRio working!
-* 2/17 Setup encoder for testing, put all of our timed autonomous variables into SmartDashboard, still need to test this.
-* 2/18 Whichever encoder we put in ports 0 and 1 works; the other will not work.  We may have fixed this error by using k2X instead of k4X, but couldn't test.  Setup but have not tested ForwardDistance for use going backwards.
-* 2/20 Got the shooter working.  Implemented a servo to accomplish this.
-* 3/4 Have been working on getting Synthesis to work - we seem to be making progress, but it has not succeded at all yet.
-* 3/14 Testing Encoders.  Right Encoder is working.  Code is still in test mode with DigitalInputs instead of Encoder objects.
+## camera info
+*10.31.31.64
+camera ip

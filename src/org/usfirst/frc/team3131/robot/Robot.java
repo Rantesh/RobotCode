@@ -27,16 +27,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
-	private Encoder encRight;
+	//private Encoder encRight;
 	private TalonSRX flywheelTalon;
 	private AutoCommand[] commands;
-	//private Command autonomousCommand;
 	private SendableChooser<Integer> autoChooser;
 	private Preferences prefs;
 	private SendableChooser<Integer> encoderChooser;
-/*	private DigitalInput enc11 = new DigitalInput(0);
+	private DigitalInput enc11 = new DigitalInput(0);
 	private DigitalInput enc12 = new DigitalInput(1);
-	private DigitalInput enc21 = new DigitalInput(3);
+/*	private DigitalInput enc21 = new DigitalInput(3);
 	private DigitalInput enc22 = new DigitalInput(4);
 */	
 	
@@ -55,7 +54,7 @@ public class Robot extends IterativeRobot {
 	
 	private AutoCommand[] getCommandsForAutoEncoder() {
 		return new AutoCommand[] {
-				new ForwardDistance(myRobot, encRight, encoderDistanceInches)
+				//new ForwardDistance(myRobot, encRight, encoderDistanceInches)
 		};
 	}
 	
@@ -75,9 +74,14 @@ public class Robot extends IterativeRobot {
 		return gearRatio * circumference / pulsePerMotorRev;
 	}
 	
-	private void encoderData() {
-    	SmartDashboard.putNumber("Right Encoder Distance", encRight.getDistance());
-    	SmartDashboard.putBoolean("Right Encoder Direction", encRight.getDirection());
+	private void sendEncoderDataToSmartDashboard() {
+		SmartDashboard.putBoolean("Encoder 1 Signal 1",enc11.get());
+		SmartDashboard.putBoolean("Encoder 1 Signal 2",enc12.get());
+/*		SmartDashboard.putBoolean("Encoder 2 Signal 1",enc21.get());
+		SmartDashboard.putBoolean("Encoder 2 Signal 2",enc22.get());
+*/
+    	//SmartDashboard.putNumber("Right Encoder Distance", encRight.getDistance());
+    	//SmartDashboard.putBoolean("Right Encoder Direction", encRight.getDirection());
 	}
 
 	/**
@@ -86,8 +90,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		myRobot = new RobotDrive(1,2);
-		flywheelTalon = new TalonSRX(6);
-		teleop = new Teleop(myRobot, flywheelTalon);
 		autoChooser = new SendableChooser<Integer>();
 		autoChooser.addDefault("Auto Forward", 0);
 		autoChooser.addObject("Auto Encoder", 1);
@@ -98,8 +100,9 @@ public class Robot extends IterativeRobot {
 		encoderChooser.addObject("Test", 1);
 		SmartDashboard.putData("Encoder Chooser", encoderChooser);
 		prefs = Preferences.getInstance();
-		encRight = new Encoder(0, 1, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
-		encRight.setDistancePerPulse(getDistancePerPulse());
+		//Encoder encRight;
+		//encRight = new Encoder(0, 1, true, Encoder.EncodingType.k4X);  // ports 2 and 3 weren't working
+		//encRight.setDistancePerPulse(getDistancePerPulse());
 
 		if (encoderChooser.getSelected() == 0) {
 			// Use Encoder Objects
@@ -113,7 +116,7 @@ public class Robot extends IterativeRobot {
 		forwardTimeMS = prefs.getDouble("Forward Time in Milliseconds", 4000);
 		encoderDistanceInches = prefs.getDouble("Encoder Distance in Inches", 60);
 		
- 		encRight.reset();
+ 		//encRight.reset();
 		commands = getAutoCommands();
 	}
 
@@ -130,7 +133,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void autonomousPeriodic(){
-		encoderData();
+		sendEncoderDataToSmartDashboard();
 		for(int i=0; i<commands.length; ++i) {
 			if (!commands[i].isFinished()) {
 				commands[i].periodic();
@@ -141,16 +144,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit(){
- 		encRight.reset();
+ 		//encRight.reset();
     } 
 	
 	public void teleopPeriodic() {
 		teleop.teleopPeriodic();
-/*		SmartDashboard.putBoolean("Encoder 1 Signal 1",enc11.get());
-		SmartDashboard.putBoolean("Encoder 1 Signal 2",enc12.get());
-		SmartDashboard.putBoolean("Encoder 2 Signal 1",enc21.get());
-		SmartDashboard.putBoolean("Encoder 2 Signal 2",enc22.get());
-*/		encoderData();
+		sendEncoderDataToSmartDashboard();
 	}
     
     public void testPeriodic() {

@@ -23,9 +23,9 @@ public class Teleop {
 	private double highSpeed = 1;
 	private double lowSpeed = 0.7;
 	private boolean useHighSpeed = true;
-	private DigitalInput topLimitSwitch= new DigitalInput(5);
-	private DigitalInput bottomLimitSwitch = new DigitalInput(6);
-	private TalonSRX armMotor = new TalonSRX(3);
+	private DigitalInput topLimitSwitch= new DigitalInput(2);
+	private DigitalInput bottomLimitSwitch = new DigitalInput(3);
+	private TalonSRX armMotor = new TalonSRX(4);
 
 	
 	private static double deadband (double joystick, int power) {
@@ -53,7 +53,7 @@ public class Teleop {
 	}
 	
 	private boolean isArmTriggerPressed() {
-		return stick.getRawButton(3);	
+		return stick.getRawButton(1);	
 	}
 	
 	private void moveArmManipulatorUp() {
@@ -68,7 +68,7 @@ public class Teleop {
 	}
 	
 	private boolean isBottomSwitchPressed() {
-		return bottomLimitSwitch.get();
+		return !bottomLimitSwitch.get();
 	}
 	
 	private void stopArmManipulator() {
@@ -83,7 +83,7 @@ public class Teleop {
 			else {
 				stopArmManipulator();
 			}
-	}
+		}
 		else if (isBottomSwitchPressed()) {
 			if (isArmTriggerPressed()) {
 				moveArmManipulatorUp();
@@ -95,6 +95,8 @@ public class Teleop {
 		else {
 			stopArmManipulator();
 		}
+		SmartDashboard.putBoolean("Top Limit Switch",isTopSwitchPressed());
+		SmartDashboard.putBoolean("Bottom Limit Switch",isBottomSwitchPressed());
 	} 
 	
 	public void teleopPeriodic() {

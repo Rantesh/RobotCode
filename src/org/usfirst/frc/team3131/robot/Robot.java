@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	private RobotDrive myRobot;
 	private Teleop teleop;
 	//private Encoder encRight;
-	private TalonSRX flywheelTalon;
+	private TalonSRX armMotor;
 	private AutoCommand[] commands;
 	private SendableChooser<Integer> autoChooser;
 	private Preferences prefs;
@@ -90,6 +90,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		myRobot = new RobotDrive(1,2);
+		teleop = new Teleop(myRobot, armMotor);
 		autoChooser = new SendableChooser<Integer>();
 		autoChooser.addDefault("Auto Forward", 0);
 		autoChooser.addObject("Auto Encoder", 1);

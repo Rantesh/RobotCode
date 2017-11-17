@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class Teleop {
-	public Teleop(RobotDrive myRobot, TalonSRX flywheelTalon){
+	public Teleop(RobotDrive myRobot, TalonSRX armMotor){
 		this.myRobot = myRobot;
 	}
 		
